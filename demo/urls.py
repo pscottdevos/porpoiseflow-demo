@@ -16,6 +16,8 @@ router.register(
     'loggings', LoggingViewSet, base_name='logging')
 router.register(
     'choices', ChoiceViewSet, base_name='choice')
+router.register(
+    'users', api.UserViewSet, base_name='user')
 
 # Defs
 router.register(
