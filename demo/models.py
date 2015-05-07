@@ -1,3 +1,34 @@
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 from django.db import models
+from porpoiseflow.bpmn2 import Bpmn2Handler
+from porpoiseflow.models import ProcessDef
 
-# Create your models here.
+PROCESSES = [
+    ('sequence_pattern', 'sequence-pattern.bpmn'),
+    ('parallel_split_synchronization', 'parallel-split-synchronization.bpmn'),
+    ('exclusive_choice_simple_merge', 'exclusive-choice-simple-merge.bpmn'),
+    ('multi_choice', 'multichoice.bpmn'),
+]
+
+USERS = [
+    ('user1', 'Group 1'),
+    ('user2', 'Group 2')
+]
+
+def load_process_defs():
+    handler = Bpmn2Handler(add_groups=True)
+    existing_process_defs = ProcessDef.objects.values_list('process_id',
+        flat=True)
+    for process_id, filename in PROCESSES:
+        if not process_id in existing_process_defs:
+            handler.parse('demo/bpmn/' + filename)
+
+
+def create_users():
+    User = get_user_model()
+    for username, group_name in USERS:
+        group = Group.objects.get(name=group_name)
+        user = User.objects.get_or_create(username=username)[0]
+
+        user.groups.add(group)
