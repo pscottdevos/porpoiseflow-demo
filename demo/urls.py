@@ -4,11 +4,18 @@ from rest_framework import routers
 
 from pf_demo.api import ProcessViewSet
 from .models import load_process_defs, create_users
+from .api import LoggingViewSet, ChoiceViewSet
 
 router = routers.SimpleRouter(trailing_slash=False)
 
 load_process_defs()
 create_users()
+
+# Demo
+router.register(
+    'loggings', LoggingViewSet, base_name='logging')
+router.register(
+    'choices', ChoiceViewSet, base_name='choice')
 
 # Defs
 router.register(

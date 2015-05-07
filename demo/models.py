@@ -1,8 +1,11 @@
+import logging
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from django.db import models
 from porpoiseflow.bpmn2 import Bpmn2Handler
-from porpoiseflow.models import ProcessDef
+from porpoiseflow.models import ProcessDef, Task, task_registry
+
+logger = logging.getLogger(__name__)
 
 PROCESSES = [
     ('sequence_pattern', 'sequence-pattern.bpmn'),
@@ -32,3 +35,21 @@ def create_users():
         user = User.objects.get_or_create(username=username)[0]
 
         user.groups.add(group)
+
+
+class Logging(Task):
+    text = models.CharField(max_length=120)
+
+    def save(self):
+        logger.info('Node name: {0}, actor: {1}, text: {2}'.format(
+            self.task_node.node_def.name, self.task_node.actor, self.text))
+        super(Logging, self).save()
+task_registry.register(Logging)
+
+
+class Choice(Task):
+    choices = models.CharField(max_length=120)
+
+    def handle_transition(self, transition):
+        return transition.name in self.choices.split()
+task_registry.register(Choice)
