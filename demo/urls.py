@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from porpoiseflow import api
 from rest_framework import routers
 
-from pf_demo.api import ProcessViewSet
+from demo.api import ProcessViewSet
 from .models import load_process_defs, create_users
 from .api import LoggingViewSet, ChoiceViewSet
 
