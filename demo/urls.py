@@ -59,7 +59,7 @@ router.register(
 router.register(
     'task-nodes', api.TaskNodeViewSet, base_name='tasknode')
 
-router.register('gateways', api.TaskViewSet, base_name='gateway')
+router.register('gateways', api.GatewayViewSet, base_name='gateway')
 router.register('subprocesses', api.TaskViewSet, base_name='subprocess')
 
 # Tasks

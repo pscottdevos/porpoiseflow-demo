@@ -24,6 +24,7 @@ SECRET_KEY = 's3b*kq=uv4@urdwjo%&hzqdxs_8@ufr2hvayyqi^xkee)y!k59'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+DEBUG_PROPAGATE_EXCEPTIONS = True
 
 ALLOWED_HOSTS = []
 

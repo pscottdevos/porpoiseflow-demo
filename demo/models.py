@@ -41,7 +41,7 @@ class Logging(Task):
     text = models.CharField(max_length=120)
 
     def save(self):
-        logger.info('Node name: {0}, actor: {1}, text: {2}'.format(
+        print('\033[92mNode name: {0}, actor: {1}, text: {2}\033[0m'.format(
             self.task_node.node_def.name, self.task_node.actor, self.text))
         super(Logging, self).save()
 task_registry.register(Logging)
