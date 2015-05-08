@@ -1,7 +1,11 @@
-from porpoiseflow.api import BaseTaskViewSet
-from porpoiseflow.api import ProcessViewSet as OriginalProcessViewSet
+from porpoiseflow.api import (
+    BaseTaskViewSet, UserViewSet as OriginalUserViewSet,
+    ProcessDefViewSet as OriginalProcessDefViewSet,
+    ProcessViewSet as OriginalProcessViewSet)
 from demo import models, serializers
 
+class UserViewSet(OriginalUserViewSet):
+    filter_fields = ['username',]
 
 class LoggingViewSet(BaseTaskViewSet):
     get_queryset = models.Logging.objects.all
@@ -12,6 +16,9 @@ class ChoiceViewSet(BaseTaskViewSet):
     get_queryset = models.Choice.objects.all
     serializer_class = serializers.ChoiceSerializer
 
+
+class ProcessDefViewSet(OriginalProcessDefViewSet):
+    filter_fields = ['process_id',]
 
 class ProcessViewSet(OriginalProcessViewSet):
 

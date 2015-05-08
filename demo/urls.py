@@ -2,9 +2,10 @@ from django.conf.urls import patterns, include, url
 from porpoiseflow import api
 from rest_framework import routers
 
-from demo.api import ProcessViewSet
+from demo.api import (
+    ProcessViewSet, UserViewSet, LoggingViewSet, ChoiceViewSet,
+    ProcessDefViewSet)
 from .models import load_process_defs, create_users
-from .api import LoggingViewSet, ChoiceViewSet
 
 router = routers.SimpleRouter(trailing_slash=False)
 
@@ -17,11 +18,11 @@ router.register(
 router.register(
     'choices', ChoiceViewSet, base_name='choice')
 router.register(
-    'users', api.UserViewSet, base_name='user')
+    'users', UserViewSet, base_name='user')
 
 # Defs
 router.register(
-    'process-defs', api.ProcessDefViewSet, base_name='processdef')
+    'process-defs', ProcessDefViewSet, base_name='processdef')
 
 router.register('node-defs', api.NodeDefViewSet, base_name='nodedef')
 
