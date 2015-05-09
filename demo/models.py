@@ -1,11 +1,13 @@
-import logging
+import os.path
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from django.db import models
+
 from porpoiseflow.bpmn2 import Bpmn2Handler
 from porpoiseflow.models import ProcessDef, Task, task_registry
+from porpoiseflow.tests import patterns
 
-logger = logging.getLogger(__name__)
 
 PROCESSES = [
     ('sequence_pattern', 'sequence-pattern.bpmn'),
@@ -25,7 +27,9 @@ def load_process_defs():
         flat=True)
     for process_id, filename in PROCESSES:
         if not process_id in existing_process_defs:
-            handler.parse('demo/bpmn/' + filename)
+            print process_id
+            pattern_dir = os.path.dirname(patterns.__file__)
+            handler.parse(os.path.join(pattern_dir, filename))
 
 
 def create_users():

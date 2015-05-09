@@ -4,6 +4,8 @@ from copy import copy
 
 from django.core.management.base import BaseCommand
 
+
+
 SERVER = 'http://localhost:8000'
 
 def patherize(class_name):
