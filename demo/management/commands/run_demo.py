@@ -35,7 +35,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         username = options['username'][0]
-        process_id = options['process_id'][0] if options['process_id'] else None
+        process_id = options['process_id']
 
         user = self.get('/api/users', {'username':username})[0]
         user_id = user['id']
