@@ -1,5 +1,6 @@
 import json
 import requests
+from copy import copy
 
 from django.core.management.base import BaseCommand
 
@@ -17,18 +18,19 @@ class Command(BaseCommand):
         parser.add_argument('process_id', nargs='?')
 
     def do_Logging(self, data):
-        user_input = raw_input('Enter text to log:')
+        user_input = raw_input('Enter text to log: ')
         data.update({'text':user_input})
         return data
 
     def do_Choice(self, data):
-        user_input = raw_input('Enter transitions to follow:')
+        user_input = raw_input('Enter transitions to follow: ')
         data.update({'choices':user_input})
         return data
 
     def save(self, path, data):
         if 'id' in data:
-            response = self.put(path + '/' + data['id'], data)
+            data_id = str(data.pop('id'))
+            response = self.put(path + '/' + data_id, data)
         else:
             response = self.post(path, data)
         return response
@@ -77,6 +79,7 @@ class Command(BaseCommand):
             elif node_subclass == 'TaskNode':
                 task = self.get_task(node)
                 task_class = node['task_class']
+                print self.get_node_def(node)['name'], '->',
                 data = getattr(self, 'do_'+task_class)(task)
                 self.save(patherize(task_class), data)
         print "Process is complete"
@@ -84,7 +87,8 @@ class Command(BaseCommand):
     def handle_user2(self, user_id, process_id):
         while True:
             # get the list of available nodes
-            nodes = self.get('/api/nodes', {'available_for_actor':user_id})
+            nodes = (self.get('/api/nodes', {'next_for_actor':user_id}) or
+                self.get('/api/nodes', {'available_for_actor':user_id}))
             if nodes:
                 recast_nodes = []
 
@@ -109,8 +113,10 @@ class Command(BaseCommand):
                         print 'Please type a number from the list.'
                 if not choice:
                     return
-                node = recast_nodes[choice]
-                task = get_task(node)
+                node = recast_nodes[choice-1]
+                if user_id != node['actor']:
+                    self.assign_node(node, user_id)
+                task = self.get_task(node)
                 task_class = node['task_class']
                 data = getattr(self, 'do_'+task_class)(task)
                 self.save(patherize(task_class), data)
@@ -125,6 +131,14 @@ class Command(BaseCommand):
         print 'Gateway: %s' % node_def['description']
         user_input = raw_input('Continue? (Y)/N) ')
         return user_input.lower().startswith('n')
+
+    def assign_node(self, node, user_id):
+        node = copy(node)
+        node['actor'] = user_id
+        node_id = str(node.pop('id'))
+        node_subclass = node['subclass']
+        node_path = patherize(node_subclass)
+        self.patch(node_path + '/' + node_id, node)
 
     def get_node_def(self, node):
         return self.get(
@@ -164,4 +178,10 @@ class Command(BaseCommand):
         url = SERVER + path
         headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
         response = requests.put(url, data=json.dumps(data), headers=headers)
+        return json.loads(response.content)
+
+    def patch(self, path, data):
+        url = SERVER + path
+        headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
+        response = requests.patch(url, data=json.dumps(data), headers=headers)
         return json.loads(response.content)
