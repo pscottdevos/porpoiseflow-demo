@@ -30,16 +30,25 @@ Structured Synchronization Pattern
 Demos
 =====
 
+Setup
+~~~~~
+
+* ``./manage.py run_demo user1 mult_choice``
+
+Procedure
+~~~~~~~~~
+
 Upper Branch
-~~~~~~~~~~~~
+------------
 
 * Logging Task 1: First
 * Choice 1: A
 * Logging Task 2: Middle 
 * Logging Task 4: End
+* y
 
 Lower Branch
-~~~~~~~~~~~~
+------------
 
 * Logging Task 1: First
 * Choice 1: B
@@ -47,13 +56,14 @@ Lower Branch
 * Logging Task 4: End
 
 Both Branches
-~~~~~~~~~~~~~
+-------------
 
 * Logging Task 1: First
 * Choice 1: A B
 * Logging Task 2: Upper Middle
 * Logging Task 3: Lower Middle
 * Logging Task 4: End
+* n
 
 First Demo
 ==========

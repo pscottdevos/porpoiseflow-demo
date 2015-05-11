@@ -30,29 +30,39 @@ Simple Merge Pattern
 Demos
 =====
 
+Setup
+~~~~~
+
+* ``./manage.py run_demo user1 exclusive_choice_simple_merge``
+
+Procedure
+~~~~~~~~~
 Upper Branch
-~~~~~~~~~~~~
+------------
 
 * Logging Task 1: First
 * Choice 1: A
 * Logging Task 2: Middle 
 * Logging Task 4: End
+* y
 
 Lower Branch
-~~~~~~~~~~~~
+------------
 
 * Logging Task 1: First
 * Choice 1: B
 * Logging Task 3: Middle 
 * Logging Task 4: End
+* y
 
 Can't Do Both Branches
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------
 
 * Logging Task 1: First
 * Choice 1: A B
 * Logging Task 2: Middle 
 * Logging Task 4: End
+* n
 
 Next Demo
 =========

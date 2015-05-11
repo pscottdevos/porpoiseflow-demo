@@ -34,8 +34,18 @@ Synchronization Pattern
 Demos
 =====
 
+Setup
+~~~~~
+
+* ``./manage.py run_demo user1 parallel_split_synchronization``
+* ``./manage.py run_demo user2``
+
+
+Procedure
+~~~~~~~~~
+
 User 1 Completes Tasks First
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------
 
 * User 1
 
@@ -45,21 +55,28 @@ User 1 Completes Tasks First
 
 * User 2
 
+    - y
+    - 1
     - Logging Task 4: Second User
+    - y
 
 * User 1
 
+    - y
     - Logging Task 5: End
 
 User 2 Completes Task First
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------
 
 * User 1
 
+    - y
     - Logging Task 1: First
 
 * User 2
 
+    - y
+    - 1
     - Logging Task 4: Second User
 
 * User 1
@@ -69,21 +86,25 @@ User 2 Completes Task First
     - Logging Task 5: End
 
 User 2 Completes Task between User 1 Tasks
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------------------
 
 * User 1
 
+    - y
     - Logging Task 1: First
     - Logging Task 2: Second
 
 * User 2
 
+    - y
+    - 1
     - Logging Task 4: Second User
 
 * User 1
 
     - Logging Task 3: Third
     - Logging Task 5: End
+    - n
 
 Next Demo
 =========

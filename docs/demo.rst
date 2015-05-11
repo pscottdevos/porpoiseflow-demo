@@ -23,3 +23,10 @@ Demonstrations
 * :ref:`parallel-split-synchronization`
 * :ref:`exclusive-choice-simple-merge`
 * :ref:`multichoice-structured-synchronization`
+
+Setup
+=====
+
+1. ``rm db.sqlite3``
+2. ``./manage migrate``
+3. ``djserve 8000``

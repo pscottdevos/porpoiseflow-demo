@@ -24,9 +24,17 @@ Sequence Pattern
 Demo
 ====
 
+Setup
+~~~~~
+
+* ``./manage.py run_demo user1 sequence_pattern``
+
+Procedure
+~~~~~~~~~
+
 * Logging Task 1: Hello
 * Logging Task 2: World
-
+* n
 
 Next Demo
 =========
