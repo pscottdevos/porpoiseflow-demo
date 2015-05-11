@@ -19,8 +19,8 @@ Setup
 =====
 
 1. ``rm db.sqlite3``
-2. ``./manage migrate``
-3. ``djserve 8000``
+2. ``./manage.py migrate``
+3. ``./manage.py runserver``
 
 Demonstrations
 ==============
