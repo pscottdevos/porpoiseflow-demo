@@ -11,6 +11,11 @@
 .. or "How to Make Steve Happy"
 .. ----------------------------
 
+.. toctree::
+
+    demo
+
+
 Overview
 ========
 
