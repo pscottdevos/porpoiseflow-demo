@@ -15,6 +15,12 @@ following properties:
     - A task that logs user input to the console.
     - A task for choosing between transitions.
 
+Setup
+=====
+
+1. ``rm db.sqlite3``
+2. ``./manage migrate``
+3. ``djserve 8000``
 
 Demonstrations
 ==============
@@ -24,9 +30,3 @@ Demonstrations
 * :ref:`exclusive-choice-simple-merge`
 * :ref:`multichoice-structured-synchronization`
 
-Setup
-=====
-
-1. ``rm db.sqlite3``
-2. ``./manage migrate``
-3. ``djserve 8000``
