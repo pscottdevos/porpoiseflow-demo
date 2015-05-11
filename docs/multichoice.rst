@@ -7,9 +7,10 @@ Multi Choice / Structured Synchronization
 Use Case
 ========
 
-User makes a definitive choice between multiple branches and only completes
-tasks in that branch. When the merge point is reached, flow continues
-immediately past the merge point to the next task.
+User selects one or more branches and only completes tasks in the selected
+branches. When the merge point is reached for a given branch, flow is moved
+to any incomplete branches until all seleted branches are complete. and which
+time the flow continues past the merge point to the next task.
 
 BPMN Diagram
 ============
