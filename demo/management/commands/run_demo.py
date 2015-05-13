@@ -150,11 +150,11 @@ class Command(BaseCommand):
         # get the task associated with the node
         task_class = node['task_class']
         task_path = patherize(task_class)
-        task= self.get(task_path, {'task_node':node['id']})
+        task = self.get(task_path, {'task_node':node['id']})
         if task:
-            task= task[0]
+            task = task[0]
         else:
-            task= {'task_node':node['id']}
+            task = {'task_node':node['id']}
         return task
 
     def recast(self, node):
