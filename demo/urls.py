@@ -1,11 +1,13 @@
 from django.conf.urls import patterns, include, url
-from porpoiseflow import api
 from rest_framework import routers
+
+from porpoiseflow import api
 
 from demo.api import (
     ProcessViewSet, UserViewSet, LoggingViewSet, ChoiceViewSet,
     ProcessDefViewSet)
-from .models import load_process_defs, create_users
+from demo.models import load_process_defs, create_users
+from demo.views import ClientView
 
 router = routers.SimpleRouter(trailing_slash=False)
 
@@ -71,7 +73,6 @@ router.register('answer-items', api.AnswerItemViewSet, base_name='answeritem')
 
 # Processes
 router.register('processes', ProcessViewSet, base_name='process')
-router.register('processes', api.ProcessViewSet, base_name='process')
 
 router.register(
     'process-statuses', api.ProcessStatusViewSet, base_name='processstatus')
@@ -90,3 +91,13 @@ router.register(
 router.register(
     'free-text-question-defs', api.FreeTextQuestionDefViewSet,
     base_name='freetextquestiondef')
+
+
+urlpatterns = [
+    # Examples:
+    # url(r'^$', 'pf_demo.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
+
+    url(r'^(?P<client_num>[0-9])/(?P<process_id>[a-zA-Z0-9_-]+)',
+        ClientView.as_view())
+]

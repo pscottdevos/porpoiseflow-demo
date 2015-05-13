@@ -10,4 +10,5 @@ urlpatterns = [
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include(urls.router.urls)),
+    url(r'^client/', include(urls)),
 ]
