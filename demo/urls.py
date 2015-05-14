@@ -98,6 +98,6 @@ urlpatterns = [
     # url(r'^$', 'pf_demo.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    url(r'^(?P<client_num>[0-9])/(?P<process_id>[a-zA-Z0-9_-]+)',
+    url(r'^(?P<client_num>[0-9])/(?P<process_id>[a-zA-Z0-9_-]+)$',
         ClientView.as_view())
 ]

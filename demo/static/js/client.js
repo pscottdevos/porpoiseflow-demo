@@ -93,8 +93,8 @@ $.extend(client, {
   },
 
   setUi: function(params) {
-    $('#prompt').text(params.prmpt);
     $('#info').text(params.info + ":");
+    $('#prompt').html(params.prmpt);
     input = $('#input')
     input.val(params.original);
     if (params.showInput) {

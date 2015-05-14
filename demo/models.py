@@ -44,10 +44,10 @@ def create_users():
 class Logging(Task):
     text = models.CharField(max_length=120)
 
-    def save(self):
+    def save(self, *args, **kwargs):
         print('\033[92mNode name: {0}, actor: {1}, text: {2}\033[0m'.format(
             self.task_node.node_def.name, self.task_node.actor, self.text))
-        super(Logging, self).save()
+        super(Logging, self).save(*args, **kwargs)
 task_registry.register(Logging)
 
 

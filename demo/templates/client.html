@@ -1,23 +1,39 @@
-<html>
-    <head>
-        <title>Ajax Demo Client</title></head>
+{% extends "demo.html" %}
 
-    </head>
+{% block navbar %}
+  <ul class="nav navbar-nav">
+    <li {% if is_client1 %}class="active"{% endif %}>
+      <a href='/client/1/{{ process_id }}'>Client 1</a>
+    </li>
+    <li {% if is_client2 %}class="active"{% endif %}>
+      <a href='/client/2/{{ process_id }}'>Client 2</a>
+    </li>
+  </ul>
+{% endblock %}
 
-    <body>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-        <script src="/static/js/inflection-js/inflection.js"></script>
-        <script>
-            var client = {processId: "{{ process_id }}", userId: "{{ user_id }}" };
-        </script>
-        <script src="/static/js/client.js"></script>
-        <script src="/static/js/client{{ client_num }}.js"></script>
-        <p id='info'></p>
-        <p>
-            <span id='prompt'></span>
-            <input id='input'>
-            <button id='button'>Submit</button>
-        </p>
+{% block jumbotron %}
+  <h1>Client {{ client_num }}</h1> 
+  <p>
+    {% if is_client1 %}
+      Client 1 represents the primary actor on a workflow, such as a
+      job-seeker working through a job application.
+    {% endif %}
+    {% if is_client2 %}
+      Client 2 represents a secondary actor on a workflow who may be needed
+      to complete some tasks on behalf of the primary actor, such as
+      a recruiter performing an interview, the system performing some
+      calculation, or a third party vendor completing a verification.
+    {% endif %}
+  </p>
+{% endblock %}
 
-    </body>
-</html>
+{% block page-header %}
+  <h1 id='info'></h1>
+{% endblock %}
+{% block well %}
+  <span id="prompt"></span>
+  <input id="input" class="form-control input-sm" type="text">
+  <button id="button" class="btn btn-sm btn-default" type=button>
+    Submit
+  </button>
+{% endblock %}

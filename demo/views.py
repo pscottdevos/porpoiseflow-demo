@@ -12,6 +12,8 @@ class ClientView(TemplateView):
         context = super(ClientView, self).get_context_data(**kwargs)
         client_num = kwargs.get('client_num')
         context.update({
+            'is_client1': client_num == '1',
+            'is_client2': client_num == '2',
             'client_num':client_num,
             'user_id': get_user_model().objects.get(
                 username='user{0}'.format(client_num)).id,
