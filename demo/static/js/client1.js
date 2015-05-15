@@ -13,14 +13,13 @@ $(function() {
             callback: self.start, 
             task: {},
             info: 'End of process',
-            prmpt: 'Submit to start again',
+            prmpt: '<p>Submit to start again.</p>',
             original: '',
             showInput: false
           });
         }
       });
     },
-
 
   });
 

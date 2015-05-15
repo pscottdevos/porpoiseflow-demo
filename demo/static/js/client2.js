@@ -4,14 +4,20 @@ $(function() {
 
     addToListUi: function(nodes) {
       var self = this;
-      $('#info').html('<ol></ol>');
-      list = $('#info ol');
+      $('#info').html('Available Tasks');
+      if (nodes.length) {
+        var prompt_end = 'Please select a task.';
+      } else {
+        var prompt_end = 'There are no tasks available for you.';
+      }
+      var prmpt = $('#prompt').html('<ol></ol>\n<p>' + prompt_end + '</p>');
+      var list = $('#prompt ol');
       for (i in nodes) {
-        node = nodes[i];
+        var node = nodes[i];
         $.get('/api/node-defs/' + node.node_def)
         .done(function(nodeDef) {
           li = list.append('<li><span id=node' + node.id + '>' + nodeDef.name + '</span></li>');
-          span = $('#node' + node.id);
+          var span = $('#node' + node.id);
           span.off();
           span.click(self.assignNode.bind(self, node));
           span.css('cursor', 'pointer');
@@ -26,7 +32,7 @@ $(function() {
         $.ajax({
           type: "PATCH",
           url: node.subclass.patherize() + '/' + node.id,
-          data: node
+          data: {actor:client.userId}
         })
         .done(function () { self.doNode(node); })
       });

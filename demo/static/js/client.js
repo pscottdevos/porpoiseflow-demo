@@ -9,7 +9,7 @@ $.extend(client, {
       callback: this.endLogging, 
       task: task,
       info: node_def.name,
-      prmpt: 'Enter text to log',
+      prmpt: '<p>Please enter text to log.</p>',
       original: '',
       showInput: true
     });
@@ -40,28 +40,30 @@ $.extend(client, {
     .done(self.doProcess.bind(self));
   },
 
-
   doNode: function(node) {
     var self = this;
     this.recast(node)
     .done(function(node) {
-      if (node.subclass === 'Gateway') {
-        self.setUi({
-          callback: self.doProcess, 
-          task: {},
-          info: node_def.name,
-          prmpt: 'Submit to continue',
-          original: '',
-          showInput: false
-        });
+      self.getNodeDef(node)
+      .done(function (node_def) {
+        if (node.subclass === 'Gateway') {
+          self.setUi({
+            callback: self.doProcess,
+            task: {},
+            info: node_def.name || node_def.bpmn_id,
+            prmpt: 'Submit to continue',
+            original: '',
+            showInput: false
+          });
 
-      } else if (node.subclass === 'TaskNode') {
-        self.doTaskNode(node);
-      }
+        } else if (node.subclass === 'TaskNode') {
+          self.doTaskNode(node_def, node);
+        }
+      })
     })
   },
 
-  doTaskNode: function(node) {
+  doTaskNode: function(node_def, node) {
     var self = this;
     $.get(node.task_class.patherize(), {'task_node':node.id})
     .done(function(tasks) {
@@ -70,11 +72,12 @@ $.extend(client, {
       } else {
         task = {task_node:node.id};
       }
-      $.get('/api/node-defs/' + node.node_def)
-      .done(function(node_def) {
-        self['start' + node.task_class](node_def, node, task);
-      });
+      self['start' + node.task_class](node_def, node, task);
     });
+  },
+
+  getNodeDef: function(node) {
+    return $.get('/api/node-defs/' + node.node_def);
   },
 
   getTask: function(node) {
@@ -93,7 +96,7 @@ $.extend(client, {
   },
 
   setUi: function(params) {
-    $('#info').text(params.info + ":");
+    $('#info').text(params.info);
     $('#prompt').html(params.prmpt);
     input = $('#input')
     input.val(params.original);
