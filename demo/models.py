@@ -14,6 +14,7 @@ PROCESSES = [
     ('parallel_split_synchronization', 'parallel-split-synchronization.bpmn'),
     ('exclusive_choice_simple_merge', 'exclusive-choice-simple-merge.bpmn'),
     ('multi_choice', 'multichoice.bpmn'),
+    ('sequence_change_lanes', 'sequence-change-lanes.bpmn'),
 ]
 
 USERS = [

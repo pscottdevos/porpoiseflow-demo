@@ -96,6 +96,7 @@ $.extend(client, {
   },
 
   setUi: function(params) {
+    $('#workflow').text(this.processId.humanize());
     $('#info').text(params.info);
     $('#prompt').html(params.prmpt);
     input = $('#input')
@@ -126,22 +127,52 @@ $.extend(client, {
 
   start: function() {
     var self = this;
-    $.get( "/api/process-defs", { process_id: this.processId })
+    $.get( "/api/process-defs", { process_id: self.processId })
     .done(function(processDefs) {
-      $.get( "/api/processes", {
-        owner: self.userId,
-        process_def: processDefs[0].id,
-        status__name: "active"
-      })
-      .done(function(processes) {
-        if (!processes.length) {
-          $.post( "/api/processes", { owner: self.userId, process_def: processDefs[0].id })
-          .done(self.doProcess.bind(self));
-        } else {
-          self.doProcess();
-        }
-      })
+      if (processDefs.length) {
+        self.startProcess(self.userId, processDefs[0]);
+      } else {
+        self.setUi({
+
+          callback: null,
+          task: {},
+          info: self.processId.humanize() + ' not found',
+          prmpt: '',
+          original: '',
+          showInput: false
+        });
+      }
     });
+  },
+
+  startProcess: function(owner, processDef) {
+    var self = this;
+    $.get( "/api/processes", {
+      owner: self.userId,
+      process_def: processDef.id,
+      status__name: "active"
+    })
+    .done(function(processes) {
+      if (!processes.length) {
+        $.post( "/api/processes", { owner: self.userId, process_def: processDef.id })
+        .done(function (process) {
+          if (process.process_def === processDef.id) {
+            self.doProcess();
+          } else {
+            self.setUi({
+              callback: null,
+              task: {},
+              info: self.processId.humanize() + ' not found for user.',
+              prmpt: '',
+              original: '',
+              showInput: false
+            });
+          }
+        });
+      } else {
+        self.doProcess();
+      }
+    })
   }
 
 });

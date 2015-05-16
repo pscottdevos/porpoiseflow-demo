@@ -65,6 +65,6 @@ $(function() {
 
   });
 
-  client.start();
+  client.doProcess();
 
 });
