@@ -12,7 +12,7 @@ $(function() {
           $.get('/api/nodes', {'available_for_actor':client.userId})
           .done(function(nodes) {
             if (nodes.length) {
-              self.doNode(nodes[0])
+              self.assignNode(nodes[0])
             } else {
               self.setUi({
                 callback: self.start, 

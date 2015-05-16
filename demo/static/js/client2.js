@@ -25,19 +25,6 @@ $(function() {
       }
     },
 
-    assignNode: function(node) {
-      var self = this;
-      this.recast(node)
-      .done(function (node) {
-        $.ajax({
-          type: "PATCH",
-          url: node.subclass.patherize() + '/' + node.id,
-          data: {actor:client.userId}
-        })
-        .done(function () { self.doNode(node); })
-      });
-    }, 
-
     doProcess: function() {
       var self = this;
       this.prepListUi();
