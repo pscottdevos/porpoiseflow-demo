@@ -14,6 +14,7 @@
 .. toctree::
 
     demo
+    demo2
 
 
 Overview

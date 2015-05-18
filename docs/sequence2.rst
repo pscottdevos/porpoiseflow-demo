@@ -1,4 +1,4 @@
-.. _sequence:
+.. _sequence2:
 
 ================
 Sequence Pattern
@@ -27,7 +27,7 @@ Demo
 Setup
 ~~~~~
 
-* ``./manage.py run_demo user1 sequence_pattern``
+* http://localhost:8000/client/1/sequence_pattern
 
 Procedure
 ~~~~~~~~~
@@ -39,3 +39,4 @@ Next Demo
 =========
 
 * :ref:`parallel-split-synchronization`
+* :ref:`exclusive-choice-simple-merge`
