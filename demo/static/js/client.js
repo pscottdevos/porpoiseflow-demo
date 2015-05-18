@@ -160,16 +160,22 @@ $.extend(client, {
 
   startProcess: function(owner, processDef) {
     var self = this;
+    self.process = null;
+
     $.get( "/api/processes", {
       owner: self.userId,
       process_def: processDef.id,
       status__name: "active"
     })
     .done(function(processes) {
-      if (!processes.length) {
+      if (processes.length) {
+        self.process = processes[0];
+        self.doProcess();
+      } else {
         $.post( "/api/processes", { owner: self.userId, process_def: processDef.id })
         .done(function (process) {
           if (process.process_def === processDef.id) {
+            self.process = process;
             self.doProcess();
           } else {
             self.setUi({
@@ -182,8 +188,6 @@ $.extend(client, {
             });
           }
         });
-      } else {
-        self.doProcess();
       }
     })
   }
