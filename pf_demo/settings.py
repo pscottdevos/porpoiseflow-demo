@@ -107,3 +107,26 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PARSER_CLASSES': (
+        #'rest_framework_ember.parsers.JSONParser',
+        'demo.ember.JSONParser',
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser',
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'demo.ember.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',),
+    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',)
+}
+REST_EMBER_FORMAT_KEYS = True
+REST_EMBER_PLURALIZE_KEYS = True
+PORPOISEFLOW_BASE_REST_SERIALIZER = (
+    'demo.ember.ModelSerializer')
+APPEND_SLASH = False
