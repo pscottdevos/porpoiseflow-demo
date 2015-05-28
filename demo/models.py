@@ -6,7 +6,7 @@ from django.db import models
 
 from porpoiseflow.bpmn2 import Bpmn2Handler
 from porpoiseflow.models import ProcessDef, Task, task_registry
-from porpoiseflow.tests import patterns
+from porpoiseflow import tests
 
 
 PROCESSES = [
@@ -14,6 +14,8 @@ PROCESSES = [
     ('parallel_split_synchronization', 'parallel-split-synchronization.bpmn'),
     ('exclusive_choice_simple_merge', 'exclusive-choice-simple-merge.bpmn'),
     ('multi_choice', 'multichoice.bpmn'),
+    ('sequence_change_lanes', 'sequence-change-lanes.bpmn'),
+    ('subprocess_pattern', 'subprocess.bpmn'),
 ]
 
 USERS = [
@@ -28,7 +30,8 @@ def load_process_defs():
     for process_id, filename in PROCESSES:
         if not process_id in existing_process_defs:
             print process_id
-            pattern_dir = os.path.dirname(patterns.__file__)
+            pattern_dir = os.path.join(
+                os.path.dirname(tests.__file__), 'patterns')
             handler.parse(os.path.join(pattern_dir, filename))
 
 
@@ -44,10 +47,10 @@ def create_users():
 class Logging(Task):
     text = models.CharField(max_length=120)
 
-    def save(self):
+    def save(self, *args, **kwargs):
         print('\033[92mNode name: {0}, actor: {1}, text: {2}\033[0m'.format(
             self.task_node.node_def.name, self.task_node.actor, self.text))
-        super(Logging, self).save()
+        super(Logging, self).save(*args, **kwargs)
 task_registry.register(Logging)
 
 

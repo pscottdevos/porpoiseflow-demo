@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('porpoiseflow', '0002_auto_20150528_1717'),
+        ('porpoiseflow', '0001_initial'),
     ]
 
     operations = [
