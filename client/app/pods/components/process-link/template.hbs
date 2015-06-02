@@ -2,7 +2,7 @@
   {{#link-to 'process' process }}{{processDef.name}}{{/link-to}}
 {{else}}
   {{#link-to 'process/new'
-      (query-params user_id=user process_def_id=processDef.id) }}
+      (query-params user_id=user.id process_def_id=processDef.id) }}
     {{processDef.name}}
   {{/link-to}}
 {{/if}}

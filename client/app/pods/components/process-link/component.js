@@ -3,10 +3,11 @@ import Ember from 'ember';
 export default Ember.Component.extend({
 
   process: function() {
-    var processDef = this.get('processDef')
+    var user = this.get('user');
+    var processDef = this.get('processDef');
     return processDef.store.find('porpoiseflow/process', {
       process_def_id: processDef.get('id'),
-      owner: this.get('user.id'),
+      owner_id: user.get('id'),
       active: true,
     });
   }.property('processDef','user'),

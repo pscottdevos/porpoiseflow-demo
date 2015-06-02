@@ -3,14 +3,20 @@ import Ember from 'ember';
 export default Ember.Route.extend({
 
   model: function(params) {
+    var processDef;
     return this.store.find('porpoiseflow/processDef', params.process_def_id)
 
-    .then((processDef) =>
-      this.store.createRecord('porpoiseflow/process', {
-        owner: params.user_id,
+    .then((tmpProcessDef) => {
+      processDef = tmpProcessDef;
+      return this.store.find('auth/user', params.user_id);
+    })
+
+    .then((user) => {
+      return this.store.createRecord('porpoiseflow/process', {
+        owner: user,
         processDef: processDef,
       })
-    );
+    });
   },
 
   afterModel: function(process) {

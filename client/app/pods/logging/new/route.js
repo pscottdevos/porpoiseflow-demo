@@ -1,5 +1,4 @@
-import Ember from 'ember';
-import LoggingRoute from '../route'
+import LoggingRoute from '../route';
 
 export default LoggingRoute.extend({
   inProgressModel: null,
