@@ -1,6 +1,6 @@
 import { moduleForModel, test } from 'ember-qunit';
 
-moduleForModel('porpoiseflow/group', 'Unit | Model | porpoiseflow/group', {
+moduleForModel('auth/user', 'Unit | Model | auth/user', {
   // Specify the other units that are required for this test.
   needs: []
 });

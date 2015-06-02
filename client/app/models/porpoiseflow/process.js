@@ -8,6 +8,6 @@ export default DS.Model.extend({
     inverse: 'process' }),
   subprocessOf: DS.belongsTo('porpoiseflow/subprocess', { async: true }),
 
-  owner: DS.attr('number'),
+  owner: DS.belongsTo('auth/user', { async: true }),
   createdOn: DS.attr('date')
 });

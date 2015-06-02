@@ -10,7 +10,7 @@ export default DS.Model.extend({
     async: true,
     inverse: 'inputs' }),
 
-  actor: DS.attr('number'),
+  actor: DS.belongsTo('auth/user', { async: true }),
   subclass: DS.attr('string'),
   createdOn: DS.attr('date'),
   startedOn: DS.attr('date'),
