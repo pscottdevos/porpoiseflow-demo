@@ -4,7 +4,7 @@ from rest_framework import routers
 from porpoiseflow import api
 
 from demo.api import (
-    ProcessViewSet, UserViewSet, LoggingViewSet, ChoiceViewSet,
+    ProcessViewSet, UserViewSet, GroupViewSet, LoggingViewSet, ChoiceViewSet,
     ProcessDefViewSet)
 from demo.models import load_process_defs, create_users
 from demo.views import ClientView
@@ -21,6 +21,8 @@ router.register(
     'choices', ChoiceViewSet, base_name='choice')
 router.register(
     'users', UserViewSet, base_name='user')
+router.register(
+    'groups', GroupViewSet, base_name='group')
 
 # Defs
 router.register(
