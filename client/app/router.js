@@ -13,6 +13,7 @@ Router.map(function() {
   this.route('node', {path: 'nodes/:id'});
   this.route('logging/new', {path: 'loggings/new'});
   this.route('logging', {path: 'loggings/:id'});
+  this.route('holding');
 });
 
 export default Router;

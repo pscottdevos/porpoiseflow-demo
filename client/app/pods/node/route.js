@@ -28,8 +28,6 @@ export default Ember.Route.extend({
         });
       });
     }
-    console.log(node);
-    console.log(node.get('subclass'));
   },
 
 });

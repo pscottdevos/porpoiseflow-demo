@@ -8,9 +8,15 @@ export default Ember.Controller.extend({
       var loggingObject = this.get('model');
       loggingObject.save()
 
-      .then(() =>
+      .then(() => loggingObject.get('taskNode'))
+
+      .then((taskNode) => taskNode.get('process'))
+
+      .then((process) => process.get('owner'))
+
+      .then((owner) =>
         this.store.find('porpoiseflow/node', 
-          {next_for_actor: loggingObject.get('taskNode.process.owner.id')}))
+          {next_for_actor: owner.get('id')}))
 
       .then((nodes) => {
         if (nodes.get('length')) {
