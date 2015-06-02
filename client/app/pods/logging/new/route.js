@@ -7,7 +7,6 @@ export default LoggingRoute.extend({
     if (this.get('inProgressModel') !== null){
       return this.get('inProgressModel');
     }
-
     return this.store.find('porpoiseflow/taskNode', params.task_node_id)
 
     .then((taskNode) =>

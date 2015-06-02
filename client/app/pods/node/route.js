@@ -9,23 +9,27 @@ export default Ember.Route.extend({
   afterModel: function(node) {
     if (node.get('subclass') === 'Gateway') {
       return this.transitionTo('holding');
-    } else if (node.get('subclass') === 'Task') {
+    } else if (node.get('subclass') === 'TaskNode') {
+      var taskNode;
       return this.store.find('porpoiseflow/taskNode', node.get('id'))
 
-      .then((taskNode) => {
-        var taskClass = taskNode.get('TaskClass');
-        var routeName = Ember.string.dasherize(taskClass);
+      .then((tmpTaskNode) => {
+        taskNode = tmpTaskNode;
+        var taskClass = taskNode.get('taskClass');
+        var routeName = Ember.String.dasherize(taskClass);
         this.store.find('porpoiseflow/task', {task_node:taskNode.get('id')})
-
+        
         .then((tasks) => {
           if (tasks.get('length')) {
             return this.transitionTo(routeName, tasks.objectAt(0).get('id'));
           } else {
-            return this.transitionTo(routeName + '/new');
+            return this.transitionTo(routeName + '/new', {queryParams: {'task_node_id': taskNode.get('id')}});
           }
         });
       });
     }
+    console.log(node);
+    console.log(node.get('subclass'));
   },
 
 });
