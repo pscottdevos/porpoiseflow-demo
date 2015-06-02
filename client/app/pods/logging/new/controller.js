@@ -5,6 +5,7 @@ export default Ember.Controller.extend({
 
   actions:{
     submitText: function(){
+      var process;
       var loggingObject = this.get('model');
       loggingObject.save()
 
@@ -12,7 +13,10 @@ export default Ember.Controller.extend({
 
       .then((taskNode) => taskNode.get('process'))
 
-      .then((process) => process.get('owner'))
+      .then((fetchedProcess) => {
+        process = fetchedProcess
+        return process.get('owner')
+      })
 
       .then((owner) =>
         this.store.find('porpoiseflow/node', 
@@ -22,7 +26,9 @@ export default Ember.Controller.extend({
         if (nodes.get('length')) {
           return this.transitionTo('node', nodes.objectAt(0).get('id'));
         } else {
-          return this.transitionTo('holding');
+          return this.transitionTo('holding', {
+            queryParams: {process_id: process.get('id')}
+          });
         }
       });
     }
