@@ -3,14 +3,17 @@ import Ember from 'ember';
 export default Ember.Route.extend({
 
   model: function(params) {
+    console.log('model hood called');
     return this.store.find('porpoiseflow/process', params.id);
   },
 
-  afterModel: function(process) {
-    process.get('status')
+  afterModel: function(model) {
+    return model.reload()
 
-    .then((status) => {
-      if (!status || (status.get('name') !== 'complete')) {
+    .then((process) => {
+      var statusName = process.get('statusName');
+
+      if (statusName !== 'complete') {
         
         return this.store.find('porpoiseflow/node', 
           {next_for_actor: process.get('owner.id')})

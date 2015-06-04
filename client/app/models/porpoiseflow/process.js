@@ -9,5 +9,6 @@ export default DS.Model.extend({
   subprocessOf: DS.belongsTo('porpoiseflow/subprocess', { async: true }),
 
   owner: DS.belongsTo('auth/user', { async: true }),
-  createdOn: DS.attr('date')
+  createdOn: DS.attr('date'),
+  statusName: DS.attr('string')
 });

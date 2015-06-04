@@ -8,9 +8,10 @@ export default Ember.Component.extend({
     var processDef = this.get('processDef');
     return DS.PromiseObject.create( { promise: 
       processDef.store.find('porpoiseflow/process', {
-      process_def_id: processDef.get('id'),
-      owner_id: user.get('id'),
-      active: true,
+        process_def: processDef.get('id'),
+        owner_id: user.get('id'),
+        status__name: 'active',
+        active: true,
       })
     
       .then((processes) => {
