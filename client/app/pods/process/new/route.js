@@ -11,12 +11,11 @@ export default Ember.Route.extend({
       return this.store.find('auth/user', params.user_id);
     })
 
-    .then((user) => {
-      return this.store.createRecord('porpoiseflow/process', {
+    .then((user) => this.store.createRecord('porpoiseflow/process', {
         owner: user,
         processDef: processDef,
       })
-    });
+    );
   },
 
   afterModel: function(process) {

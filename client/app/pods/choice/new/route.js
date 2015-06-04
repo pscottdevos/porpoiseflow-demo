@@ -1,6 +1,7 @@
-import LoggingRoute from '../route';
+import ChoiceRoute from '../route';
 
-export default LoggingRoute.extend({
+export default ChoiceRoute.extend({
+
   inProgressModel: null,
 
   model: function(params){
@@ -10,12 +11,12 @@ export default LoggingRoute.extend({
     return this.store.find('porpoiseflow/taskNode', params.task_node_id)
 
     .then((taskNode) => {
-      var logging = this.store.createRecord('demo/logging', {
+      var choice = this.store.createRecord('demo/choice', {
         taskNode: taskNode
       });
-      this.set('inProgressModel', logging);
-      return logging;
+      this.set('inProgressModel', choice);
+      return choice;
     });
-  }
+  },
 
 });

@@ -7,15 +7,23 @@ export default Ember.Route.extend({
   },
 
   afterModel: function(process) {
-    return this.store.find('porpoiseflow/node', 
-      {next_for_actor: process.get('owner.id')})
+    process.get('status')
 
-    .then((nodes) => {
-      if (nodes.get('length')) {
-        return this.transitionTo('node', nodes.objectAt(0).get('id'));
-      } else {
-        return this.transitionTo('holding');
+    .then((status) => {
+      if (!status || (status.get('name') !== 'complete')) {
+        
+        return this.store.find('porpoiseflow/node', 
+          {next_for_actor: process.get('owner.id')})
+
+        .then((nodes) => {
+          if (nodes.get('length')) {
+            return this.transitionTo('node', nodes.objectAt(0).get('id'));
+          } else {
+            return this.transitionTo('holding');
+          }
+        });
       }
     });
-  },
+  }
+
 });

@@ -68,32 +68,11 @@ router.register('subprocesses', api.TaskViewSet, base_name='subprocess')
 
 # Tasks
 router.register('tasks', api.TaskViewSet, base_name='task')
-router.register('questionnaires', api.QuestionnaireViewSet,
-    base_name='questionnaire')
-router.register('answers', api.AnswerViewSet, base_name='answer')
-router.register('answer-items', api.AnswerItemViewSet, base_name='answeritem')
-
 # Processes
 router.register('processes', ProcessViewSet, base_name='process')
 
 router.register(
     'process-statuses', api.ProcessStatusViewSet, base_name='processstatus')
-
-# Questionnaire
-router.register(
-    'questionnaire-defs', api.QuestionnaireDefViewSet,
-    base_name='questionnairedef')
-router.register('question-defs', api.QuestionDefViewSet,
-    base_name='questiondef')
-router.register(
-    'answer-item-defs', api.AnswerItemDefViewSet, base_name='answeritemdef')
-router.register(
-    'multiple-choice-question-defs', api.MultipleChoiceQuestionDefViewSet,
-    base_name='multiplechoicequestiondef')
-router.register(
-    'free-text-question-defs', api.FreeTextQuestionDefViewSet,
-    base_name='freetextquestiondef')
-
 
 urlpatterns = [
     # Examples:

@@ -14,6 +14,8 @@ Router.map(function() {
   this.route('logging/new', {path: 'loggings/new'});
   this.route('logging', {path: 'loggings/:id'});
   this.route('holding');
+  this.route('choice/new', {path: 'choices/new'});
+  this.route('choice', {path: 'choices/:id'});
 });
 
 export default Router;

@@ -4,18 +4,18 @@ export default Ember.Route.extend({
   inProgressModel: null,
 
   model: function(params){
-    return this.store.find('demo/logging', params.id);
+    return this.store.find('demo/choice', params.id);
   },
-  
+
   actions:{
-    submitText: function(){
+    submitChoice: function(){
       var process;
-      var loggingObject = this.get('controller.model');
-      loggingObject.save()
+      var choiceObject = this.get('controller.model');
+      choiceObject.save()
 
       .then(() => this.set('inProgressModel', null))
 
-      .then(() => loggingObject.get('taskNode'))
+      .then(() => choiceObject.get('taskNode'))
 
       .then((taskNode) => taskNode.get('process'))
 
@@ -25,7 +25,7 @@ export default Ember.Route.extend({
       })
 
       .then((owner) =>
-        this.store.find('porpoiseflow/node', 
+        this.store.find('porpoiseflow/node',
           {next_for_actor: owner.get('id')}))
 
       .then((nodes) => {
