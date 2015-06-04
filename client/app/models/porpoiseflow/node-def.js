@@ -2,7 +2,7 @@ import DS from 'ember-data';
 
 export default DS.Model.extend({
   processDef: DS.belongsTo('porpoiseflow/processDef', { async: true }),
-  lane: DS.belongsTo('base/group', { async: true }),
+  lane: DS.belongsTo('auth/group', { async: true }),
 
   subclass: DS.attr('string'),
 

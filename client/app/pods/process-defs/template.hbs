@@ -1,6 +1,6 @@
 <ul>
     {{#each model as |def|}}
-    <li>{{def.name}}</li>
+    <li>{{process-link processDef=def user=defaultUser}}</li>
     {{/each}}
 </ul>
 {{outlet}}

@@ -4,6 +4,7 @@ from rest_framework.response import Response
 
 from porpoiseflow.api import (
     BaseTaskViewSet, UserViewSet as OriginalUserViewSet,
+    GroupViewSet as OriginalGroupViewSet,
     ProcessDefViewSet as OriginalProcessDefViewSet,
     ProcessViewSet as OriginalProcessViewSet)
 from porpoiseflow.models import Process, ProcessDef
@@ -14,6 +15,11 @@ from demo import models, serializers
 
 class UserViewSet(OriginalUserViewSet):
     filter_fields = ['username',]
+
+
+class GroupViewSet(OriginalGroupViewSet):
+    filter_fields = ['name',]
+
 
 class LoggingViewSet(BaseTaskViewSet):
     get_queryset = models.Logging.objects.all
