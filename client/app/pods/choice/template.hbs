@@ -1,5 +1,14 @@
 {{outlet}}
 <h2>{{model.taskNode.nodeDef.processDef.name}}</h2>
-<h3>{{model.taskNode.nodeDef.name}}</h3>
-{{input type="text" value=model.choices placeholder='Choose.'}}
-<button {{action 'submitChoice'}}>Submit!</button>
+<div class="row">
+  <div class="task">
+    <h3>{{model.taskNode.nodeDef.name}}</h3>
+
+    <div class="input-group">
+    {{input type="text" value=model.choices placeholder='Choose.'}}
+    <span class="input-group-btn">
+      <button {{action 'submitChoice'}}>Submit!</button>
+    </span>
+    </div>
+  </div>
+</div>

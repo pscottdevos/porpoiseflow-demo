@@ -21,7 +21,7 @@ PROCESSES = [
 
 USERS = [
     ('user1', 'Group 1'),
-    ('user2', 'Group 2')
+    # ('user2', 'Group 2')
 ]
 
 def load_process_defs():
