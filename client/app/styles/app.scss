@@ -1,1 +1,6 @@
 @import '../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap';
+@import 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css';
+
+.process-defs {
+  @extend .list-group;
+}

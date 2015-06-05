@@ -7,6 +7,10 @@ export default Ember.Route.extend({
     return this.store.find('demo/choice', params.id);
   },
 
+  renderTemplate: function() {
+    this.render('choice');
+  },
+
   actions:{
     submitChoice: function(){
       var process;

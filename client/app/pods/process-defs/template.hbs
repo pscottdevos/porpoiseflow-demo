@@ -1,6 +1,8 @@
-<ul>
+<div class="well">
+  <div class="process-defs">
     {{#each model as |def|}}
-    <li>{{process-link processDef=def user=defaultUser}}</li>
+      {{process-link processDef=def user=defaultUser}}
     {{/each}}
-</ul>
+  </div>
+</div>
 {{outlet}}

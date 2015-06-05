@@ -7,6 +7,10 @@ export default Ember.Route.extend({
     return this.store.find('demo/logging', params.id);
   },
   
+  renderTemplate: function() {
+    this.render('logging');
+  },
+
   actions:{
     submitText: function(){
       var process;
