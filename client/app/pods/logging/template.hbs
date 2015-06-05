@@ -1,1 +1,5 @@
 {{outlet}}
+<h2>{{model.taskNode.nodeDef.processDef.name}}</h2>
+<h3>{{model.taskNode.nodeDef.name}}</h3>
+{{input type="text" value=model.text placeholder='Log this!'}}
+<button {{action 'submitText'}}>Submit!</button>
