@@ -16,7 +16,8 @@ PROCESSES = [
     ('multi_choice', 'multichoice.bpmn'),
     #('sequence_change_lanes', 'sequence-change-lanes.bpmn'),
     ('subprocess_pattern', 'subprocess.bpmn'),
-    ('loop_2', 'loop2-multi-instance.bpmn')
+    ('loop_2', 'loop2-multi-instance.bpmn'),
+    ('nested_branches2', 'nested-branches1.bpmn'),
 ]
 
 USERS = [

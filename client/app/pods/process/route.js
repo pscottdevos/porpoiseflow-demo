@@ -3,7 +3,6 @@ import Ember from 'ember';
 export default Ember.Route.extend({
 
   model: function(params) {
-    console.log('model hood called');
     return this.store.find('porpoiseflow/process', params.id);
   },
 
