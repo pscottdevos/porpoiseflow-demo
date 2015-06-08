@@ -9,7 +9,11 @@ Router.map(function() {
   this.route('process-defs');
 
   this.route('process/new', {path: 'processes/new'});
-  this.route('process', {path: 'processes/:id'});
+  this.route('process', {path: 'processes/:id'}, function() {
+    this.route('loading');
+
+    this.route('new', function() {});
+  });
   this.route('node', {path: 'nodes/:id'});
   this.route('logging/new', {path: 'loggings/new'});
   this.route('logging', {path: 'loggings/:id'});

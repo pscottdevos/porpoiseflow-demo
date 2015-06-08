@@ -3,12 +3,20 @@ import Ember from 'ember';
 export default Ember.Route.extend({
 
   model: function(params) {
-    console.log('model hood called');
     return this.store.find('porpoiseflow/process', params.id);
   },
 
-  afterModel: function(model) {
-    return model.reload()
+  render: function() {
+    this._super();
+    Ember.run.later(this, this.redirectToNext, this.get('controller.model'),
+      1000);
+  },
+
+  /**
+   * Sends us to the next Node, or to holding.
+   */
+  redirectToNext: function(node) {
+    return node.reload()
 
     .then((process) => {
       var statusName = process.get('statusName');
@@ -20,9 +28,9 @@ export default Ember.Route.extend({
 
         .then((nodes) => {
           if (nodes.get('length')) {
-            return this.transitionTo('node', nodes.objectAt(0).get('id'));
+            return this.replaceWith('node', nodes.objectAt(0).get('id'));
           } else {
-            return this.transitionTo('holding');
+            return this.replaceWith('holding');
           }
         });
       }

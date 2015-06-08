@@ -17,3 +17,12 @@
     @extend .btn-default;
   }
 }
+
+.searching-for-next-panel {
+  @extend .center-block;
+  @extend .panel;
+  @extend .panel-default;
+
+  width: 300px;
+  margin-top: 200px;
+}

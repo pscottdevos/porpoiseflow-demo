@@ -1,4 +1,7 @@
-<p>Congratulations! You have completed process {{ process.processDef.name }}.</p>
+{{#if isComplete}}
+  <p>Congratulations! You have completed process {{ model.processDef.name }}.</p>
 
-<p>Start another {{#link-to "process-defs"}}process{{/link-to}}?</p>
-{{outlet}}
+  <p>Start another {{#link-to "process-defs"}}process{{/link-to}}?</p>
+{{else}}
+  {{searching-for-next}}
+{{/if}}
