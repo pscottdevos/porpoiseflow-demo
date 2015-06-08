@@ -12,7 +12,7 @@ export default Ember.Route.extend({
   },
 
   actions:{
-    submitChoice: function(){
+    submit: function(){
       var process;
       var choiceObject = this.get('controller.model');
       choiceObject.save()
