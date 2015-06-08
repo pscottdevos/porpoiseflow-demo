@@ -4,17 +4,22 @@ export default LoggingRoute.extend({
   inProgressModel: null,
 
   model: function(params){
-    if (this.get('inProgressModel') !== null){
+    return this.taskModel('demo/logging', params);
+  },
+
+  taskModel: function(modelName, params){
+    var inProgressModel = this.get('inProgressModel');
+    if (inProgressModel !== null && inProgressModel.get('id') === params.id) {
       return this.get('inProgressModel');
     }
     return this.store.find('porpoiseflow/taskNode', params.task_node_id)
 
     .then((taskNode) => {
-      var logging = this.store.createRecord('demo/logging', {
+      var task = this.store.createRecord(modelName, {
         taskNode: taskNode
       });
-      this.set('inProgressModel', logging);
-      return logging;
+      this.set('inProgressModel', task);
+      return task;
     });
   }
 

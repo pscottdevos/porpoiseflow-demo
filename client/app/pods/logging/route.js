@@ -30,7 +30,9 @@ export default Ember.Route.extend({
 
       .then((owner) =>
         this.store.find('porpoiseflow/node', 
-          {next_for_actor: owner.get('id')}))
+          {next_for_actor: owner.get('id'), process:process.get('id')}
+        )
+      )
 
       .then((nodes) => {
         if (nodes.get('length')) {
