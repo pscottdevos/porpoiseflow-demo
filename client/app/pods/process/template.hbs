@@ -1,7 +1,9 @@
-{{#if isComplete}}
-  <p>Congratulations! You have completed process {{ model.processDef.name }}.</p>
+<div id="process-page-wrapper">
+  {{#liquid-if isComplete}}
+    <p>Congratulations! You have completed process {{ model.processDef.name }}.</p>
 
-  <p>Start another {{#link-to "process-defs"}}process{{/link-to}}?</p>
-{{else}}
-  {{searching-for-next}}
-{{/if}}
+    <p>Start another {{#link-to "process-defs"}}process{{/link-to}}?</p>
+  {{else}}
+    {{searching-for-next}}
+  {{/liquid-if}}
+</div>

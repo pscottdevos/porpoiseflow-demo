@@ -22,4 +22,8 @@ export default function() {
     this.toRoute(taskRoutes),
     this.use('toLeft', standardArgs));
 
+  this.transition(
+    this.childOf('#process-page-wrapper'),
+    this.includingInitialRender(),
+    this.use('toLeft', standardArgs));
 }
