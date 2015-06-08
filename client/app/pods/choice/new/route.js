@@ -6,7 +6,7 @@ export default ChoiceRoute.extend({
 
   model: function(params){
     var inProgressModel = this.get('inProgressModel');
-    if (inProgressModel !== null && inProgressModel.get('id') == params.id) {
+    if (inProgressModel !== null && inProgressModel.get('id') === params.id) {
       return this.get('inProgressModel');
     }
     return this.store.find('porpoiseflow/taskNode', params.task_node_id)

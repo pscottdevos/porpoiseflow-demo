@@ -12,7 +12,7 @@ export default Ember.Route.extend({
   },
 
   actions:{
-    submitText: function(){
+    submit: function(){
       var process;
       var loggingObject = this.get('controller.model');
       loggingObject.save()
