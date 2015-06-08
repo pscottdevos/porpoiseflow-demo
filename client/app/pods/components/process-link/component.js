@@ -19,6 +19,5 @@ export default Ember.Component.extend({
         else { return null; }
       })
     });
-  }.property('processDef','user'),
-
+  }.property('processDef','user')
 });
