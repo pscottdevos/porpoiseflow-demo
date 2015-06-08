@@ -15,16 +15,22 @@ export default Ember.Route.extend({
   /**
    * Sends us to the next Node, or to holding.
    */
-  redirectToNext: function(node) {
-    return node.reload()
+  redirectToNext: function(model) {
+    var process;
+    return model.reload()
 
-    .then((process) => {
+    .then((fetchedModel) => {
+      process = fetchedModel;
+      return process.get('owner');
+    })
+
+    .then((owner) => {
       var statusName = process.get('statusName');
 
       if (statusName !== 'complete') {
         
         return this.store.find('porpoiseflow/node', 
-          {next_for_actor: process.get('owner.id'), process: process.get('id')}
+          {next_for_actor: owner.get('id'), process: process.get('id')}
         )
 
         .then((nodes) => {
