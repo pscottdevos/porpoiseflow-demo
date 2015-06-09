@@ -1,19 +1,16 @@
 import Ember from 'ember';
 
-export default Ember.Route.extend({
+import TaskMixin from '../../mixins/task';
+
+export default Ember.Route.extend(TaskMixin, {
   inProgressModel: null,
 
   model: function(params){
-    return this.store.find('demo/choice', params.id);
+    return this.taskModel('demo/choice', params);
   },
 
-  setupController: function(controller, model){
-    console.log(model);
-    controller.set('model', model);
-  },
-
-  renderTemplate: function() {
-    this.render('choice');
+  renderTemplate: function(controller, model) {
+    this.render('choice', { controller: controller });
   },
 
   actions:{

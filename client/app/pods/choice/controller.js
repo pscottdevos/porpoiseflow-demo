@@ -3,7 +3,6 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
 
   validChoices: function() {
-    console.log(this.get('model'));
     var choice = this.get('model');
     return choice.get('taskNode.nodeDef')
     
@@ -26,4 +25,5 @@ export default Ember.Controller.extend({
         })
       );
   }.property('model'),
+
 });
