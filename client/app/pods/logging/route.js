@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
-export default Ember.Route.extend({
+import TaskMixin from '../../mixins/task';
+
+export default Ember.Route.extend(TaskMixin, {
   inProgressModel: null,
 
   model: function(params){
@@ -12,7 +14,7 @@ export default Ember.Route.extend({
   },
 
   actions:{
-    submitText: function(){
+    submit: function(){
       var process;
       var loggingObject = this.get('controller.model');
       loggingObject.save()
@@ -30,7 +32,9 @@ export default Ember.Route.extend({
 
       .then((owner) =>
         this.store.find('porpoiseflow/node', 
-          {next_for_actor: owner.get('id')}))
+          {next_for_actor: owner.get('id'), process:process.get('id')}
+        )
+      )
 
       .then((nodes) => {
         if (nodes.get('length')) {

@@ -6,22 +6,38 @@ export default Ember.Route.extend({
     return this.store.find('porpoiseflow/process', params.id);
   },
 
-  afterModel: function(model) {
+  render: function() {
+    this._super();
+    Ember.run.later(this, this.redirectToNext, this.get('controller.model'),
+      1000);
+  },
+
+  /**
+   * Sends us to the next Node, or to holding.
+   */
+  redirectToNext: function(model) {
+    var process;
     return model.reload()
 
-    .then((process) => {
+    .then((fetchedModel) => {
+      process = fetchedModel;
+      return process.get('owner');
+    })
+
+    .then((owner) => {
       var statusName = process.get('statusName');
 
       if (statusName !== 'complete') {
         
         return this.store.find('porpoiseflow/node', 
-          {next_for_actor: process.get('owner.id')})
+          {next_for_actor: owner.get('id'), process: process.get('id')}
+        )
 
         .then((nodes) => {
           if (nodes.get('length')) {
-            return this.transitionTo('node', nodes.objectAt(0).get('id'));
+            return this.replaceWith('node', nodes.objectAt(0).get('id'));
           } else {
-            return this.transitionTo('holding');
+            return this.replaceWith('holding');
           }
         });
       }

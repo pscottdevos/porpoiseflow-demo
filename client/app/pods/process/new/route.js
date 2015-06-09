@@ -18,9 +18,18 @@ export default Ember.Route.extend({
     );
   },
 
-  afterModel: function(process) {
+  render: function() {
+    this._super();
+    Ember.run.later(this, this.persistAndRedirect, this.get('controller.model'),
+      1000);
+  },
+
+  /**
+   * Save the new process and redirect to it.
+   */
+  persistAndRedirect: function(process) {
     process.save()
     
-    .then(() => this.transitionTo('process', process.get('id')));
+    .then(() => this.replaceWith('process', process.get('id')));
   },
 });

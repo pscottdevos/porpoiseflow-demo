@@ -17,7 +17,7 @@ export default Ember.Route.extend({
   },
 
   actions:{
-    submitChoice: function(){
+    submit: function(){
       var process;
       var choiceObject = this.get('controller.model');
       choiceObject.save()
@@ -35,7 +35,9 @@ export default Ember.Route.extend({
 
       .then((owner) =>
         this.store.find('porpoiseflow/node',
-          {next_for_actor: owner.get('id')}))
+          {next_for_actor: owner.get('id'), process: process.get('id')}
+        )
+      )
 
       .then((nodes) => {
         if (nodes.get('length')) {

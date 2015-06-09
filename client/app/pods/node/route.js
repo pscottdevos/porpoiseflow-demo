@@ -6,9 +6,19 @@ export default Ember.Route.extend({
     return this.store.find('porpoiseflow/node', params.id);
   },
 
-  afterModel: function(node) {
+  render: function() {
+    this._super();
+    Ember.run.later(this, this.redirectToNext, this.get('controller.model'),
+      1000);
+  },
+
+  /**
+   * Finds the appropriate page for the next Node (a task page or a holding
+   * page).
+   */
+  redirectToNext: function(node) {
     if (node.get('subclass') === 'Gateway') {
-      return this.transitionTo('holding');
+      return this.replaceWith('holding');
     } else if (node.get('subclass') === 'TaskNode') {
       var taskNode;
       return this.store.find('porpoiseflow/taskNode', node.get('id'))
@@ -21,9 +31,9 @@ export default Ember.Route.extend({
         
         .then((tasks) => {
           if (tasks.get('length')) {
-            return this.transitionTo(routeName, tasks.objectAt(0).get('id'));
+            return this.replaceWith(routeName, tasks.objectAt(0).get('id'));
           } else {
-            return this.transitionTo(routeName + '/new', {queryParams: {'task_node_id': taskNode.get('id')}});
+            return this.replaceWith(routeName + '/new', {queryParams: {'task_node_id': taskNode.get('id')}});
           }
         });
       });

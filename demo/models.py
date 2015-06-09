@@ -17,7 +17,7 @@ PROCESSES = [
     #('sequence_change_lanes', 'sequence-change-lanes.bpmn'),
     ('subprocess_pattern', 'subprocess.bpmn'),
     ('loop_2', 'loop2-multi-instance.bpmn'),
-    ('nested_branches2', 'nested-branches1.bpmn'),
+    ('nested_branches', 'nested-branches1.bpmn'),
 ]
 
 USERS = [
@@ -29,6 +29,7 @@ def load_process_defs():
     handler = Bpmn2Handler(add_groups=True)
     existing_process_defs = ProcessDef.objects.values_list('process_id',
         flat=True)
+    print existing_process_defs
     for process_id, filename in PROCESSES:
         if not process_id in existing_process_defs:
             print process_id

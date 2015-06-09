@@ -1,14 +1,9 @@
-{{outlet}}
-<h2>{{model.taskNode.nodeDef.processDef.name}}</h2>
-<div class="row">
-  <div class="task">
-    <h3>{{model.taskNode.nodeDef.name}}</h3>
-
+{{#task-form task=model}}
     <div class="input-group">
-    {{input type="text" value=model.choices placeholder='Choose.'}}
-    <span class="input-group-btn">
-      <button {{action 'submitChoice'}}>Submit!</button>
-    </span>
+      {{input type="text" value=model.choices placeholder='Choose.'}}
+      <span class="input-group-btn">
+        <button {{action 'submit'}}>Submit!</button>
+      </span>
     </div>
     <ul>
     {{#each item in validChoices}}
@@ -19,3 +14,4 @@
     </ul>
   </div>
 </div>
+{{/task-form}}

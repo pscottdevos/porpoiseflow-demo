@@ -16,4 +16,19 @@
     @extend .btn;
     @extend .btn-default;
   }
+
+  min-height: 350px;
+}
+
+#process-page-wrapper {
+  min-height: 350px;
+}
+
+.searching-for-next-panel {
+  @extend .center-block;
+  @extend .panel;
+  @extend .panel-default;
+
+  width: 300px;
+  margin-top: 200px;
 }
