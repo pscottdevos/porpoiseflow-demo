@@ -1,6 +1,6 @@
 import { moduleForModel, test } from 'ember-qunit';
 
-moduleForModel('transition', 'Unit | Model | transition', {
+moduleForModel('porpoiseflow/transition', 'Unit | Model | porpoiseflow/transition', {
   // Specify the other units that are required for this test.
   needs: []
 });
