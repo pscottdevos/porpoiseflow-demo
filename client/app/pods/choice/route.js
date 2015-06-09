@@ -7,6 +7,11 @@ export default Ember.Route.extend({
     return this.store.find('demo/choice', params.id);
   },
 
+  setupController: function(controller, model){
+    console.log(model);
+    controller.set('model', model);
+  },
+
   renderTemplate: function() {
     this.render('choice');
   },
