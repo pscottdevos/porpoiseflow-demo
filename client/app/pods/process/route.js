@@ -54,9 +54,8 @@ export default Ember.Route.extend({
             .then((nodes) => {
               if (nodes.get('length')) {
                 var node = nodes.objectAt(0);
-                node.set('actor', owner);
-                node.save();
-                return this.transitionTo('node', node.get('id'));
+                return node.assign(owner)
+                .then(() => this.transitionTo('node', node.get('id')));
               } else {
                 return this.replaceWith('holding');
               }

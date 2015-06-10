@@ -54,9 +54,8 @@ export default Ember.Mixin.create({
         .then((nodes) => {
           if (nodes.get('length')) {
             var node = nodes.objectAt(0);
-            node.set('actor', owner);
-            node.save();
-            return this.transitionTo('node', nodes.objectAt(0).get('id'));
+            return node.assign(owner)
+            .then(() => this.transitionTo('node', nodes.objectAt(0).get('id')));
           } else {
             return this.transitionTo('process', process.get('id'));
           }
