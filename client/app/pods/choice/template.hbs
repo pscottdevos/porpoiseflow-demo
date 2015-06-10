@@ -1,5 +1,6 @@
 {{#task-form task=model}}
     <div class="input-group">
+      <p id="errorLabel" class="label label-danger"></p>
       {{input type="text" value=model.choices placeholder='Choose.'}}
       <span class="input-group-btn">
         <button {{action 'submit'}}>Submit!</button>
