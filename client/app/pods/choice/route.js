@@ -14,35 +14,15 @@ export default Ember.Route.extend(TaskMixin, {
   },
 
   actions:{
-    submit: function(){
-      var process;
-      var choiceObject = this.get('controller.model');
-      choiceObject.save()
-
-      .then(() => this.set('inProgressModel', null))
-
-      .then(() => choiceObject.get('taskNode'))
-
-      .then((taskNode) => taskNode.get('process'))
-
-      .then((fetchedProcess) => {
-        process = fetchedProcess;
-        return process.get('owner');
-      })
-
-      .then((owner) =>
-        this.store.find('porpoiseflow/node',
-          {next_for_actor: owner.get('id'), process: process.get('id')}
-        )
-      )
-
-      .then((nodes) => {
-        if (nodes.get('length')) {
-          return this.transitionTo('node', nodes.objectAt(0).get('id'));
-        } else {
-          return this.transitionTo('process', process.get('id'));
-        }
-      });
+    submit: function() {
+      var choices = this.get('controller.model').get('choices');
+      var validChoices = ['A', 'B', 'A B', 'B A', 'C', 'D', 'C D', 'D C'];
+      if (validChoices.indexOf(choices) === -1) {
+        Ember.$('#errorLabel').text('Invalid Choice');
+      } else {
+        Ember.$('#errorLabel').text('');
+        this.doSubmit();
+      }
     }
   }
 });

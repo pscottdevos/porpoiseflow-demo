@@ -29,10 +29,8 @@ def load_process_defs():
     handler = Bpmn2Handler(add_groups=True)
     existing_process_defs = ProcessDef.objects.values_list('process_id',
         flat=True)
-    print existing_process_defs
     for process_id, filename in PROCESSES:
         if not process_id in existing_process_defs:
-            print process_id
             pattern_dir = os.path.join(
                 os.path.dirname(tests.__file__), 'patterns')
             handler.parse(os.path.join(pattern_dir, filename))

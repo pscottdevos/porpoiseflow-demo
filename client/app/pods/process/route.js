@@ -27,7 +27,17 @@ export default Ember.Route.extend({
     .then((owner) => {
       var statusName = process.get('statusName');
 
-      if (statusName !== 'complete') {
+      if (statusName === 'complete') {
+
+        //Why is this a promise?
+        process.get('subprocessOf')
+        .then((node) => {
+          if (node) {
+            //while this is not?
+            this.replaceWith('process', node.get('process.id'));
+          }
+        });
+      } else {
         
         return this.store.find('porpoiseflow/node', 
           {next_for_actor: owner.get('id'), process: process.get('id')}
