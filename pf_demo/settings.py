@@ -112,12 +112,13 @@ STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
     'DEFAULT_PARSER_CLASSES': (
-        #'rest_framework_ember.parsers.JSONParser',
+        'rest_framework.parsers.JSONParser',
         'demo.ember.JSONParser',
         'rest_framework.parsers.FormParser',
         'rest_framework.parsers.MultiPartParser',
     ),
     'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
         'demo.ember.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
     ),

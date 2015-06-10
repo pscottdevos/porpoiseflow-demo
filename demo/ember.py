@@ -13,6 +13,8 @@ class ModelSerializer(serializers.ModelSerializer):
 
 class JSONRenderer(renderers.JSONRenderer):
 
+    media_type = 'application/json-ember'
+
     def render(self, data, accepted_media_type=None, renderer_context=None):
         # pull the app_label off the serializer
         serializer = renderer_context['view'].get_serializer()
@@ -40,6 +42,8 @@ class JSONRenderer(renderers.JSONRenderer):
 
 
 class JSONParser(parsers.JSONParser):
+
+    media_type = 'application/json-ember'
 
     def parse(self, stream, media_type=None, parser_context=None):
 

@@ -11,10 +11,10 @@ from porpoiseflow import tests
 
 PROCESSES = [
     ('sequence_pattern', 'sequence-pattern.bpmn'),
-    #('parallel_split_synchronization', 'parallel-split-synchronization.bpmn'),
+    ('parallel_split_synchronization', 'parallel-split-synchronization.bpmn'),
     ('exclusive_choice_simple_merge', 'exclusive-choice-simple-merge.bpmn'),
     ('multi_choice', 'multichoice.bpmn'),
-    #('sequence_change_lanes', 'sequence-change-lanes.bpmn'),
+    ('sequence_change_lanes', 'sequence-change-lanes.bpmn'),
     ('subprocess_pattern', 'subprocess.bpmn'),
     ('loop_2', 'loop2-multi-instance.bpmn'),
     ('nested_branches', 'nested-branches1.bpmn'),
@@ -22,7 +22,7 @@ PROCESSES = [
 
 USERS = [
     ('user1', 'Group 1'),
-    # ('user2', 'Group 2')
+    ('user2', 'Group 2')
 ]
 
 def load_process_defs():

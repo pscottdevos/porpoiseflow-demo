@@ -6,6 +6,11 @@ export default DS.RESTAdapter.extend({
 
   coalesceFindRequests: true,
 
+  headers: {
+    "Accept": 'application/json-ember',
+    "Content-Type": 'application/json-ember'
+  },
+
   // handle validation errors
   ajaxError: function(jqXHR) {
     var error = this._super(jqXHR);
