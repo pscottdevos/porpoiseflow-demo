@@ -1,11 +1,14 @@
 {{#task-form task=model}}
-    <div class="input-group">
-      {{input type="text" value=model.choices placeholder='Choose.'}}
-      <span class="input-group-btn">
+    {{#if validChoices}}
+        {{#each validChoices as |choice|}}
+            {{input type="checkbox" checked=choice.isChecked name=choice.validTransition.name}} {{ choice.validTransition.name }}
+        {{/each}}
+    {{else}}
+        <div class="input-group">
+          {{input type="text" value=model.choices placeholder='Choose.'}}
+        </div>
+    {{/if}}
+    <span class="input-group-btn">
         <button {{action 'submit'}}>Submit!</button>
-      </span>
-    </div>
-    {{#each validChoices as |choice|}}
-        {{input type="checkbox"}} {{ choice.validTransition.name }}
-    {{/each}}
+    </span>
 {{/task-form}}
