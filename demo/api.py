@@ -6,7 +6,8 @@ from porpoiseflow.api import (
     BaseTaskViewSet, UserViewSet as OriginalUserViewSet,
     GroupViewSet as OriginalGroupViewSet,
     ProcessDefViewSet as OriginalProcessDefViewSet,
-    ProcessViewSet as OriginalProcessViewSet)
+    ProcessViewSet as OriginalProcessViewSet,
+    TransitionViewSet as OriginalTransitionViewSet)
 from porpoiseflow.models import Process, ProcessDef
 
 from demo import models, serializers
@@ -48,3 +49,7 @@ class ProcessViewSet(OriginalProcessViewSet):
         headers = self.get_success_headers(serializer.data)
         return Response(
             serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+class TransitionViewSet(OriginalTransitionViewSet):
+    filter_fields = ('input',)

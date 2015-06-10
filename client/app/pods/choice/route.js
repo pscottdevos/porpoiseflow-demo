@@ -6,11 +6,11 @@ export default Ember.Route.extend(TaskMixin, {
   inProgressModel: null,
 
   model: function(params){
-    return this.store.find('demo/choice', params.id);
+    return this.taskModel('demo/choice', params);
   },
 
-  renderTemplate: function() {
-    this.render('choice');
+  renderTemplate: function(controller, model) {
+    this.render('choice', { controller: controller });
   },
 
   actions:{

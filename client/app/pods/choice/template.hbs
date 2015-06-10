@@ -1,9 +1,16 @@
 {{#task-form task=model}}
-    <div class="input-group">
-      <p id="errorLabel" class="label label-danger"></p>
-      {{input type="text" value=model.choices placeholder='Choose.'}}
-      <span class="input-group-btn">
+    {{#if validChoices}}
+        <p id="errorLabel" class="label label-danger"></p>
+        {{#each validChoices as |choice|}}
+            {{input type="checkbox" checked=choice.isChecked name=choice.validTransition.name}} {{ choice.validTransition.name }}
+        {{/each}}
+    {{else}}
+        <div class="input-group">
+          <p id="errorLabel" class="label label-danger"></p>
+          {{input type="text" value=model.choices placeholder='Choose.'}}
+        </div>
+    {{/if}}
+    <span class="input-group-btn">
         <button {{action 'submit'}}>Submit!</button>
-      </span>
-    </div>
+    </span>
 {{/task-form}}
