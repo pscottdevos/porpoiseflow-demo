@@ -47,7 +47,20 @@ export default Ember.Route.extend({
           if (nodes.get('length')) {
             return this.replaceWith('node', nodes.objectAt(0).get('id'));
           } else {
-            return this.replaceWith('holding');
+            return this.store.find('porpoiseflow/node',
+              {available_for_actor: owner.get('id'), process: process.get('id')}
+            )
+
+            .then((nodes) => {
+              if (nodes.get('length')) {
+                var node = nodes.objectAt(0);
+                node.set('actor', owner);
+                node.save();
+                return this.transitionTo('node', node.get('id'));
+              } else {
+                return this.replaceWith('holding');
+              }
+            });
           }
         });
       }

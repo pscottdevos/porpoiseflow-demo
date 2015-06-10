@@ -22,6 +22,7 @@ export default Ember.Mixin.create({
   doSubmit: function(){
     var process;
     var task = this.get('controller.model');
+    var owner;
     task.save()
 
     .then(() => this.set('inProgressModel', null))
@@ -35,17 +36,31 @@ export default Ember.Mixin.create({
       return process.get('owner');
     })
 
-    .then((owner) =>
-      this.store.find('porpoiseflow/node',
+    .then((o) => {
+      owner = o;
+      return this.store.find('porpoiseflow/node',
         {next_for_actor: owner.get('id'), process: process.get('id')}
-      )
-    )
+      );
+    })
 
     .then((nodes) => {
       if (nodes.get('length')) {
         return this.transitionTo('node', nodes.objectAt(0).get('id'));
       } else {
-        return this.transitionTo('process', process.get('id'));
+        return this.store.find('porpoiseflow/node',
+          {available_for_actor: owner.get('id'), process: process.get('id')}
+        )
+
+        .then((nodes) => {
+          if (nodes.get('length')) {
+            var node = nodes.objectAt(0);
+            node.set('actor', owner);
+            node.save();
+            return this.transitionTo('node', nodes.objectAt(0).get('id'));
+          } else {
+            return this.transitionTo('process', process.get('id'));
+          }
+        });
       }
     });
   }
