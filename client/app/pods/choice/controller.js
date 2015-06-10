@@ -15,11 +15,9 @@ export default Ember.Controller.extend({
 
     .then((gatewayDef) => {
       var subclass= gatewayDef.get('subclass');
-      if (subclass !== 'ExclusiveGatewayDef'
-          && subclass !== 'InclusiveGatewayDef'
-          && subclass !== 'ParallelGatewayDef') {
-        return null;
-      }
+      if (
+        subclass !== 'ExclusiveGatewayDef' && subclass !== 'InclusiveGatewayDef' && subclass !== 'ParallelGatewayDef'
+      ) { return null; }
       return gatewayDef.getOutgoingTransitions()
 
       .then((validTransitions) =>
@@ -32,7 +30,7 @@ export default Ember.Controller.extend({
       );
     });
 
-    return DS.PromiseArray.create({promise:promise})
+    return DS.PromiseArray.create({promise:promise});
   }.property('model'),
 
   selectedChoices: function() {
