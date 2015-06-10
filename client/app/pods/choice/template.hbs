@@ -5,11 +5,7 @@
         <button {{action 'submit'}}>Submit!</button>
       </span>
     </div>
-    <ul>
-    {{#each item in validChoices}}
-        <li>
-            {{input type="checkbox"}}YARGH
-        </li>
-    {{/each }}
-    </ul>
+    {{#each validChoices as |choice|}}
+        {{input type="checkbox"}} {{ choice.validTransition.name }}
+    {{/each}}
 {{/task-form}}
