@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
-export default Ember.Route.extend({
+import TaskMixin from '../../mixins/task';
+
+export default Ember.Route.extend(TaskMixin, {
   inProgressModel: null,
 
   model: function(params){
