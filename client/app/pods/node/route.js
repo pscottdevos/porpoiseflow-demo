@@ -17,7 +17,8 @@ export default Ember.Route.extend({
    * page).
    */
   redirectToNext: function(node) {
-    if (node.get('subclass') === 'ParallelGateway') {
+    if (node.get('subclass') === 'ParallelGateway' || 
+        node.get('subclass') === 'InclusiveGateway') {
       return this.replaceWith('holding');
     } else if (node.get('subclass') === 'TaskNode') {
       var taskNode;
