@@ -2,7 +2,7 @@ import { moduleForModel, test } from 'ember-qunit';
 
 moduleForModel('porpoiseflow/task-node', 'Unit | Model | porpoiseflow/task node', {
   // Specify the other units that are required for this test.
-  needs: []
+  integration: true,
 });
 
 test('it exists', function(assert) {
