@@ -12,4 +12,8 @@ export default DS.Model.extend({
   joinMode: DS.attr('string'),
   splitMode: DS.attr('string'),
   isMultiInstance: DS.attr('boolean'),
+
+  getOutgoingTransitions: function(){
+    return this.store.find('porpoiseflow/transition', {input:this.get('id')});
+  }
 });
