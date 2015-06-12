@@ -17,26 +17,39 @@ export default Ember.Route.extend({
    * page).
    */
   redirectToNext: function(node) {
+    var self = this;
     if (node.get('subclass') === 'ParallelGateway' || 
         node.get('subclass') === 'InclusiveGateway') {
       return this.replaceWith('holding');
     } else if (node.get('subclass') === 'TaskNode') {
-      var taskNode;
       return this.store.find('porpoiseflow/taskNode', node.get('id'))
 
-      .then((tmpTaskNode) => {
-        taskNode = tmpTaskNode;
+      .then((taskNode) => {
+
+        // define a function to be used later
+        var moveOn = function (taskNode, taskClass) {
+          var routeName = Ember.String.dasherize(taskClass);
+          self.store.find('porpoiseflow/task', {task_node:taskNode.get('id')})
+          
+          .then((tasks) => {
+            if (tasks.get('length')) {
+              return self.replaceWith(routeName, tasks.objectAt(0).get('id'));
+            } else {
+              return self.replaceWith(routeName + '/new', {queryParams: {'task_node_id': taskNode.get('id')}});
+            }
+          });
+        };
+
         var taskClass = taskNode.get('taskClass');
-        var routeName = Ember.String.dasherize(taskClass);
-        this.store.find('porpoiseflow/task', {task_node:taskNode.get('id')})
-        
-        .then((tasks) => {
-          if (tasks.get('length')) {
-            return this.replaceWith(routeName, tasks.objectAt(0).get('id'));
-          } else {
-            return this.replaceWith(routeName + '/new', {queryParams: {'task_node_id': taskNode.get('id')}});
-          }
-        });
+        if (taskClass) {
+          return moveOn(taskNode, taskClass);
+        } else {
+          return taskNode.reload()
+          .then((taskNode) => {
+            var taskClass = taskNode.get('taskClass');
+            return moveOn(taskNode, taskClass);
+          });
+        }
       });
     }
   },
