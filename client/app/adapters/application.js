@@ -26,13 +26,13 @@ export default DS.RESTAdapter.extend({
 
   pathForType: function(type) {
     // porpoiseflow/taskNode -> porpoiseflow/task-node
-    var dasherized = Ember.String.dasherize(type);
+    var dasherized = type.dasherize();
 
     // porpoiseflow/task-node -> task-node
     var pathComponents = dasherized.split('/');
     var flattened = pathComponents[pathComponents.length - 1];
 
     // task-node -> task-nodes
-    return Ember.String.pluralize(flattened);
+    return flattened.pluralize();
   }
 });
