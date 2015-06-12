@@ -18,9 +18,10 @@ export default DS.Model.extend({
   startedOn: DS.attr('date'),
   completedOn: DS.attr('date'),
 
-  assign: function(actor) {
-    var adapter = this.store.adapterFor('porpoiseflow/node');
-    return adapter.assign(this, this.store, actor);
+  recast: function() {
+    var typeComponents = this.constructor.typeKey.split('/');
+    var typeNamespace = typeComponents.slice(0, -1).join('/') + '/';
+    return this.store.find(typeNamespace + this.get('subclass'), this.get('id'));
   }
 
 });
