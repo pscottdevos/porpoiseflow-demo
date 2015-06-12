@@ -2,7 +2,7 @@ import { moduleForModel, test } from 'ember-qunit';
 
 moduleForModel('auth/group', 'Unit | Model | auth/group', {
   // Specify the other units that are required for this test.
-  needs: []
+  integration: true
 });
 
 test('it exists', function(assert) {
