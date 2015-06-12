@@ -29,12 +29,12 @@ export default Ember.Route.extend({
 
       if (statusName === 'complete') {
 
-        //Why is this a promise?
         process.get('subprocessOf')
         .then((node) => {
           if (node) {
-            //while this is not?
-            this.replaceWith('process', node.get('process.id'));
+            return node.get('process')
+
+            .then((process) => this.replaceWith('process', process.get('id')));
           }
         });
       } else {
@@ -55,7 +55,7 @@ export default Ember.Route.extend({
               if (nodes.get('length')) {
                 var node = nodes.objectAt(0);
                 return node.assign(owner)
-                .then(() => this.transitionTo('node', node.get('id')));
+                .then(() => this.replaceWith('node', node.get('id')));
               } else {
                 return this.replaceWith('holding');
               }
