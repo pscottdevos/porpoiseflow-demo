@@ -3,7 +3,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import Ember from 'ember';
 import DS from 'ember-data';
 
-import sinon from 'sinon';
+import { fakeStore, emberObj as obj } from 'client/tests/helpers/utils';
 
 moduleForComponent('process-link', 'Unit | Component | process link', {
   // Specify the other units that are required for this test
@@ -15,35 +15,26 @@ test('it finds the process, if any, associated with processDef',
     // Creates the component instance
     var component = this.subject();
 
-    var process = Ember.Object.create({
+    var process = obj({
       id: 0
     });
-
-    var findStub = sinon.stub().returns(DS.PromiseArray.create({
-      promise: Ember.RSVP.resolve([process])
-    }));
-
-    var processDef = Ember.Object.create({
-      'id': 0,
-      store: {
-        find: findStub
-      }
-    });
-
-    var user = Ember.Object.create({
-      'id': 0
-    });
+    var store = fakeStore().alwaysFinds([process]);
 
     var done = assert.async();
 
-    component.set('processDef', processDef);
-    component.set('user', user);
+    component.set('processDef', obj({
+      id: 0,
+      store: store
+    }));
+    component.set('user', obj({
+      id: 0
+    }));
 
     component.get('process')
 
     .then(function() {
+      assert.ok(store.findCalled());
       assert.strictEqual(component.get('process.id'), process.get('id'));
       done();
     });
-
-  });
+});
