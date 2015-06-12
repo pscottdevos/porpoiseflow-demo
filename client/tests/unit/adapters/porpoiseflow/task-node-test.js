@@ -1,6 +1,6 @@
 import { moduleFor, test } from 'ember-qunit';
 
-moduleFor('adapter:porpoiseflow/node', 'Unit | Adapter | porpoiseflow/node', {
+moduleFor('adapter:porpoiseflow/task-node', 'Unit | Adapter | porpoiseflow/task node', {
   // Specify the other units that are required for this test.
   // needs: ['serializer:foo']
 });
