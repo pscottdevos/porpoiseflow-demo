@@ -26,8 +26,8 @@ export default Ember.Mixin.create({
 
     task.save()
     .catch((error) => {
-      var msg = 'Your task was not saved because of the following:\n\n' + error.message +
-        '\n\nAn attempt will be made to continue.';
+      var msg = 'Your task was not saved because of the following:\n\n' +
+        error.message + '\n\nAn attempt will be made to continue.';
       return window.alert(msg);
     })
     .then(() => this.set('inProgressModel', null))
