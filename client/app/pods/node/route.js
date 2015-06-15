@@ -27,7 +27,7 @@ export default Ember.Route.extend({
         .then((task) => {
           var routeName = taskNode.get('taskClass').dasherize();
           if (task) {
-            return self.replaceWith(routeName, task);
+            return self.replaceWith(routeName, task.get('id'));
           } else {
             return self.replaceWith(routeName + '/new', {queryParams: {'task_node_id': taskNode.get('id')}});
           }
