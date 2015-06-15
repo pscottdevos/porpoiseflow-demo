@@ -19,8 +19,7 @@ export default DS.Model.extend({
         .then((nodes) =>
         {
           if (nodes.get('length')) {
-            return nodes.objectAt(0).recast()
-            .then((taskNode) => taskNode.assign(this));
+            return nodes.objectAt(0).assign(this);
           } else {
             return null;
           }

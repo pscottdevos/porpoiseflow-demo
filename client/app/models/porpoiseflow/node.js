@@ -18,10 +18,22 @@ export default DS.Model.extend({
   startedOn: DS.attr('date'),
   completedOn: DS.attr('date'),
 
-  recast: function() {
+  assign: function(actor) {
+    var adapter = this.store.adapterFor(this.constructor.typeKey);
+    return adapter.assign(this, this.store, actor);
+  },
+
+  namespace: function() {
     var typeComponents = this.constructor.typeKey.split('/');
-    var typeNamespace = typeComponents.slice(0, -1).join('/') + '/';
-    return this.store.find(typeNamespace + this.get('subclass'), this.get('id'));
+    return typeComponents.slice(0, -1).join('/') + '/';
+  }.property(),
+
+  recast: function() {
+    if (this.get('subclass') === 'TaskNode') {
+      return this.store.find(this.get('namespace') + this.get('subclass'), this.get('id'));
+    } else {
+      return this;
+    }
   }
 
 });
