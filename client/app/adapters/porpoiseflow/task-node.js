@@ -16,10 +16,10 @@ export default ApplicationAdapter.extend({
         accepts: self.headers["Accept"],
         contentType: self.headers["Content-Type"]
       })
-      .done((data, textStatus, jqXHR) => {
-        console.log(data);
-        resolve(store.push('porpoiseflow/' + node.get('subclass'), data));
-      })
+      .done((data, textStatus, jqXHR) =>
+        node.reload()
+        .then((reloaded) => resolve(reloaded))
+      )
       .fail((jqXHR, textStatus, errorThrown) => reject(errorThrown));
     });
   }

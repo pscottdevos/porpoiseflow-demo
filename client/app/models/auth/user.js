@@ -11,7 +11,7 @@ export default DS.Model.extend({
     )
     .then((nodes) => {
       if (nodes.get('length')) {
-        return nodes.objectAt(0);
+        return nodes.objectAt(0).recast();
       } else {
         return this.store.find('porpoiseflow/node',
           {available_for_actor: this.get('id'), process: process.get('id')}
@@ -19,8 +19,8 @@ export default DS.Model.extend({
         .then((nodes) =>
         {
           if (nodes.get('length')) {
-            var node = nodes.objectAt(0);
-            return node.assign(this);
+            return nodes.objectAt(0).recast()
+            .then((taskNode) => taskNode.assign(this));
           } else {
             return null;
           }
