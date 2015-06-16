@@ -19,7 +19,7 @@ export default Ember.Route.extend({
   redirectToNext: function(node) {
     var self = this;
     if ( ['ParallelGateway', 'InclusiveGateway'].indexOf(node.get('subclass')) >= 0 ) {
-      return this.replaceWith('holding');
+      return this.replaceWith('process', node.get('process.id'));
     } else if (node.get('subclass') === 'TaskNode') {
       return node.recast()
       .then((taskNode) => taskNode.getTask()

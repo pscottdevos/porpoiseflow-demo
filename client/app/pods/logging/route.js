@@ -8,10 +8,6 @@ export default Ember.Route.extend(TaskMixin, {
   model: function(params){
     return this.store.find('demo/logging', params.id);
   },
-  
-  renderTemplate: function() {
-    this.render('logging');
-  },
 
   actions:{
     submit: function() {

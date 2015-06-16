@@ -8,8 +8,21 @@ export default Ember.Route.extend({
 
   render: function() {
     this._super();
-    Ember.run.later(this, this.redirectToNext, this.get('controller.model'),
+    this.schedulePoll();
+  },
+
+  schedulePoll: function() {
+    return Ember.run.later(this,
+      function(model) {
+        this.redirectToNext(model);
+        this.set('timer', this.schedulePoll());
+      },
+      this.get('controller.model'),
       1000);
+  },
+
+  cancelPoll: function() {
+    Ember.run.cancel(this.get('timer'));
   },
 
   /**
@@ -29,12 +42,15 @@ export default Ember.Route.extend({
 
       if (statusName === 'complete') {
 
+        this.cancelPoll();
         process.get('subprocessOf')
         .then((node) => {
           if (node) {
             return node.get('process')
 
             .then((process) => this.replaceWith('process', process.get('id')));
+          } else {
+            return null;
           }
         });
       } else {
@@ -42,14 +58,15 @@ export default Ember.Route.extend({
         return owner.getNextNode(process)
         .then((node) =>
         {
-          if (node) {
+          if (node && node.get('subclass') === 'TaskNode') {
+            this.cancelPoll()
             return this.replaceWith('node', node.get('id'));
           } else {
-            return this.replaceWith('holding');
+            return null;
           }
         });
       }
     });
-  }
+  },
 
 });
