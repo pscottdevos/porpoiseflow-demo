@@ -6,8 +6,6 @@
 
   {{else}}
 
-    <h2>{{hasWaitingTask}}</h2>
-
     {{#liquid-if hasWaitingTask}}
       <p>Please wait while additional tasks are completed by another user.</p>
       <p>Start another {{#link-to "process-defs"}}process{{/link-to}}?</p>

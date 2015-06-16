@@ -13,12 +13,8 @@ export default Ember.Controller.extend({
     return process.get('owner')
     .then((owner) => owner.getNextNode(process))
     .then((node) => {
-      if (node.get('subclass') !== 'ParallelGateway' ||
-          node.get('subclass') !== 'InclusiveGateway') {
-        return true;
-      } else {
-        return false;
-      }
+      return (node.get('subclass') !== 'ParallelGateway' ||
+          node.get('subclass') !== 'InclusiveGateway');
     });
   }.property('model', 'model.owner')
 });
