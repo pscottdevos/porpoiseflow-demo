@@ -8,8 +8,7 @@ export default Ember.Route.extend({
 
   render: function() {
     this._super();
-    Ember.run.later(this, this.redirectToNext, this.get('controller.model'),
-      1000);
+    Ember.run.later(this, this.redirectToNext, this.get('controller.model'), 1000);
   },
 
   /**
@@ -35,6 +34,8 @@ export default Ember.Route.extend({
             return node.get('process')
 
             .then((process) => this.replaceWith('process', process.get('id')));
+          } else {
+            return null;
           }
         });
       } else {
@@ -42,14 +43,14 @@ export default Ember.Route.extend({
         return owner.getNextNode(process)
         .then((node) =>
         {
-          if (node) {
+          if (node && node.get('subclass') === 'TaskNode') {
             return this.replaceWith('node', node.get('id'));
           } else {
-            return this.replaceWith('holding');
+            return null;
           }
         });
       }
     });
-  }
+  },
 
 });
