@@ -3,16 +3,21 @@ import DS from 'ember-data';
 
 import sinon from 'sinon';
 
-var FakeStore = Ember.Object.extend({
-  find: sinon.spy(function() {
-    var result = this.get('findResult');
-    var promise = Ember.RSVP.resolve(result);
+var toPromiseProxy = function(content) {
+  var promise = Ember.RSVP.resolve(content);
 
-    if (Ember.isArray(result)) {
+    if (Ember.isArray(content)) {
       return DS.PromiseArray.create({promise: promise});
     }
 
     return DS.PromiseObject.create({promise: promise});
+};
+
+var FakeStore = Ember.Object.extend({
+
+  find: sinon.spy(function() {
+    var result = this.get('findResult');
+    return toPromiseProxy(result);
   }),
 
   /**
@@ -30,9 +35,23 @@ var FakeStore = Ember.Object.extend({
   },
 
   findCalledWith: function() {
-    return this.find.calledWith(arguments);
+    return this.find.calledWith.apply(this.find, arguments);
+  },
+
+
+  createRecord: sinon.spy(function(modelName, contents) {
+    return Ember.Object.create(contents);
+  }),
+
+  createRecordCalled: function() {
+    return this.createRecord.called;
+  },
+
+  createRecordCalledWith: function() {
+    return this.createRecord.calledWith.apply(this.createRecord, arguments);
   }
 });
 
 export var fakeStore = () => FakeStore.create();
 export var emberObj = (plainObj) => Ember.Object.create(plainObj);
+export { toPromiseProxy as toPromiseProxy };

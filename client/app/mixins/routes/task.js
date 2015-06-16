@@ -37,7 +37,7 @@ export default Ember.Mixin.create({
     var taskNode;
     var task = this.get('controller.model');
 
-    task.save()
+    return task.save()
     .catch((error) => {
       var msg = 'Your task was not saved because of the following:\n\n' +
         error.message + '\n\nAn attempt will be made to continue.';
