@@ -32,7 +32,7 @@ export default DS.Model.extend({
     if (this.get('subclass') === 'TaskNode') {
       return this.store.find(this.get('namespace') + 'taskNode', this.get('id'));
     } else {
-      return this;
+      return DS.PromiseObject.create({ promise: Ember.RSVP.resolve(this) });
     }
   }
 

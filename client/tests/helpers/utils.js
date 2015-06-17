@@ -18,6 +18,7 @@ var FakeStore = Ember.Object.extend({
   init: function() {
     this._super();
 
+    sinon.spy(this, 'adapterFor');
     sinon.spy(this, 'createRecord');
     sinon.spy(this, 'dataWasUpdated');
     sinon.spy(this, 'find');
@@ -26,6 +27,10 @@ var FakeStore = Ember.Object.extend({
   //=================== DS.Store API stubs ==================================
 
   //note that ``init`` wraps each of these in a spy
+  
+  adapterFor: function(modelName) {
+    return this.get('fakeAdapter');
+  },
 
   createRecord: function(modelName, contents) {
     return Ember.Object.create(contents);
