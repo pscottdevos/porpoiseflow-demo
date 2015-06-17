@@ -33,7 +33,7 @@ test('it finds the process, if any, associated with processDef',
     component.get('process')
 
     .then(function() {
-      assert.ok(store.findCalled());
+      assert.ok(store.find.called);
       assert.strictEqual(component.get('process.id'), process.get('id'));
       done();
     });

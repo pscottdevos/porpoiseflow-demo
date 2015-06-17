@@ -69,7 +69,7 @@ test('it disregards the "in progress" model if it does not match the route',
     subject.taskModel('some-task-model', {id: 1, task_node_id: 10})
 
     .then((taskModel) => {
-      assert.ok(subject.get('store').findCalledWith(
+      assert.ok(subject.get('store').find.calledWith(
         'porpoiseflow/taskNode', 10));
       assert.strictEqual(taskModel.get('taskNode.id'), 10);
       done();
