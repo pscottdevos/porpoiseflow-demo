@@ -18,22 +18,31 @@ var FakeStore = Ember.Object.extend({
   init: function() {
     this._super();
 
-    //these have to be created in init -- otherwise we'll get the same spy for
-    //every instance of the store
-    this.find = sinon.spy(() => toPromiseProxy(this.get('findResult')));
-    this.createRecord = sinon.spy((modelName, contents) =>
-      Ember.Object.create(contents));
+    sinon.spy(this, 'createRecord');
+    sinon.spy(this, 'dataWasUpdated');
+    sinon.spy(this, 'find');
+  },
+
+  //=================== DS.Store API stubs ==================================
+
+  //note that ``init`` wraps each of these in a spy
+
+  createRecord: function(modelName, contents) {
+    return Ember.Object.create(contents);
   },
 
   dataWasUpdated: function(type, internalModel) {
     //do nothing
   },
 
-  //see init
-  find: null,
+  find: function() {
+    return toPromiseProxy(this.get('findResult'));
+  },
+
+  //====================== FakeStore configuration methods ==================
 
   /**
-   * Mocks the fake Store's find() function so that it always returns a
+   * Mocks the fake Store's find() method so that it always returns a
    * Promise resolving to result. If result is an Array, the Promise will be a
    * PromiseArray; otherwise, it'll be a PromiseObject.
    */
@@ -42,24 +51,15 @@ var FakeStore = Ember.Object.extend({
     return this;
   },
 
-  findCalled: function() {
-    return this.find.called;
-  },
-
-  findCalledWith: function() {
-    return this.find.calledWith.apply(this.find, arguments);
-  },
-
-  //see init
-  createRecord: null,
-
-  createRecordCalled: function() {
-    return this.createRecord.called;
-  },
-
-  createRecordCalledWith: function() {
-    return this.createRecord.calledWith.apply(this.createRecord, arguments);
+  /**
+   * Mocks the fake Store's adapterFor() method so that it always returns
+   * fakeAdapter.
+   */
+  alwaysGetsAdapter: function(fakeAdapter) {
+    this.set('fakeAdapter', fakeAdapter);
+    return this;
   }
+
 });
 
 export var fakeStore = () => FakeStore.create();
