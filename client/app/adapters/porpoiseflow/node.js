@@ -5,7 +5,7 @@ import ApplicationAdapter from '../application';
 export default ApplicationAdapter.extend({
   assign: function (node, store, actor) {
     var self = this;
-    var typeKey = node.constructor.typeKey;
+    var typeKey = node.get('namespace') + node.get('subclass').camelize();
     var data = {};
     data[typeKey] = {actor: actor.get('id')};
     return new Ember.RSVP.Promise(function(resolve, reject){
@@ -13,13 +13,11 @@ export default ApplicationAdapter.extend({
         url: self.namespace + '/' + node.get('subclass').dasherize().pluralize() + '/' + node.get('id'),
         type: "PATCH",
         data: JSON.stringify(data),
-        accepts: self.headers["Accept"],
-        contentType: self.headers["Content-Type"]
+        headers: self.headers
       })
-      .done((data, textStatus, jqXHR) =>
-        node.reload()
-        .then((reloaded) => resolve(reloaded))
-      )
+      .done((data, textStatus, jqXHR) => {
+        resolve(store.push(typeKey, data[typeKey]));
+      })
       .fail((jqXHR, textStatus, errorThrown) => reject(errorThrown));
     });
   }
