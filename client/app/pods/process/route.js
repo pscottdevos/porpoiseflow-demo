@@ -59,7 +59,7 @@ export default Ember.Route.extend({
         .then((node) =>
         {
           if (node && node.get('subclass') === 'TaskNode') {
-            this.cancelPoll()
+            this.cancelPoll();
             return this.replaceWith('node', node.get('id'));
           } else {
             return null;

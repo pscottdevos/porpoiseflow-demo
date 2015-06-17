@@ -15,10 +15,22 @@ var toPromiseProxy = function(content) {
 
 var FakeStore = Ember.Object.extend({
 
-  find: sinon.spy(function() {
-    var result = this.get('findResult');
-    return toPromiseProxy(result);
-  }),
+  init: function() {
+    this._super();
+
+    //these have to be created in init -- otherwise we'll get the same spy for
+    //every instance of the store
+    this.find = sinon.spy(() => toPromiseProxy(this.get('findResult')));
+    this.createRecord = sinon.spy((modelName, contents) =>
+      Ember.Object.create(contents));
+  },
+
+  dataWasUpdated: function(type, internalModel) {
+    //do nothing
+  },
+
+  //see init
+  find: null,
 
   /**
    * Mocks the fake Store's find() function so that it always returns a
@@ -38,10 +50,8 @@ var FakeStore = Ember.Object.extend({
     return this.find.calledWith.apply(this.find, arguments);
   },
 
-
-  createRecord: sinon.spy(function(modelName, contents) {
-    return Ember.Object.create(contents);
-  }),
+  //see init
+  createRecord: null,
 
   createRecordCalled: function() {
     return this.createRecord.called;

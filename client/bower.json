@@ -13,6 +13,7 @@
     "loader.js": "ember-cli/loader.js#3.2.0",
     "qunit": "~1.17.1",
     "bootstrap-sass": "~3.3.4",
-    "sinonjs": "~1.14.1"
+    "sinonjs": "~1.14.1",
+    "blanket": "~1.1.5"
   }
 }

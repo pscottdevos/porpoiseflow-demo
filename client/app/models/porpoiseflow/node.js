@@ -18,21 +18,19 @@ export default DS.Model.extend({
   startedOn: DS.attr('date'),
   completedOn: DS.attr('date'),
 
-  assign: function(actor) {
-    var adapter = this.store.adapterFor(this.constructor.typeKey);
-    return adapter.assign(this, this.store, actor);
-  },
-
   namespace: function() {
     var typeComponents = this.constructor.typeKey.split('/');
     return typeComponents.slice(0, -1).join('/') + '/';
   }.property(),
 
   recast: function() {
-    if (this.get('subclass') === 'TaskNode') {
-      return this.store.find(this.get('namespace') + this.get('subclass'), this.get('id'));
+    var subclass = this.get('subclass').camelize();
+    if (subclass === 'taskNode') {
+      return this.store.find(this.get('namespace') + subclass, this.get('id'));
     } else {
-      return this;
+      return DS.PromiseObject.create({
+        promise: Ember.RSVP.resolve(this)
+      });
     }
   }
 
