@@ -28,7 +28,7 @@ export default Ember.Route.extend({
    * Save the new process and redirect to it.
    */
   persistAndRedirect: function(process) {
-    process.save()
+    return process.save()
     
     .then(() => this.replaceWith('process', process.get('id')));
   },

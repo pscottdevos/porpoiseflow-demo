@@ -11,7 +11,7 @@ export default Ember.Component.extend({
         process_def: processDef.get('id'),
         owner_id: user.get('id'),
         status__name: 'active',
-        active: true,
+        subprocess_of: null
       })
     
       .then((processes) => {

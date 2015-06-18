@@ -21,8 +21,6 @@ test('it finds the process, if any, associated with processDef',
     });
     var store = fakeStore().alwaysFinds([process]);
 
-    var done = assert.async();
-
     component.set('processDef', obj({
       id: 0,
       store: store
@@ -36,6 +34,5 @@ test('it finds the process, if any, associated with processDef',
     .then(function() {
       assert.ok(store.find.called);
       assert.strictEqual(component.get('process.id'), process.get('id'));
-      done();
     });
 });
