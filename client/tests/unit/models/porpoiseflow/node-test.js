@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import { moduleForModel, test } from 'ember-qunit';
 
-import { fakeStore, emberObj as obj } from 'client/tests/helpers/utils';
+import fakeStore from 'client/tests/helpers/fake-store';
+import { emberObj as obj } from 'client/tests/helpers/utils';
 
 moduleForModel('porpoiseflow/node', 'Unit | Model | porpoiseflow/node', {
   // Specify the other units that are required for this test.
