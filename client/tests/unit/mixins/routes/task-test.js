@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import RoutesTaskMixin from 'client/mixins/routes/task';
-import { module, test } from 'qunit';
+import { moduleFor, test } from 'ember-qunit';
 import sinon from 'sinon';
 
 import fakeStore from 'client/tests/helpers/fake-store';
@@ -34,7 +34,7 @@ var setupDoSubmit = (taskRoute) => {
 var alertStub;
 var subject;
 
-module('Unit | Mixin | routes/task', {
+moduleFor('mixin:routes/task', 'Unit | Mixin | routes/task', {
   setup: () => {
     var TaskObject = Ember.Object.extend(RoutesTaskMixin);
     subject = TaskObject.create();
@@ -65,7 +65,6 @@ test('it disregards the "in progress" model if it does not match the route',
       id: 0
     }));
 
-    var done = assert.async();
 
     subject.taskModel('some-task-model', {id: 1, task_node_id: 10})
 
@@ -73,19 +72,15 @@ test('it disregards the "in progress" model if it does not match the route',
       assert.ok(subject.get('store').find.calledWith(
         'porpoiseflow/taskNode', 10));
       assert.strictEqual(taskModel.get('taskNode.id'), 10);
-      done();
     });
   });
 
 test('it submits the task model', function(assert) {
   var fakeObject = setupDoSubmit(subject);
 
-  var done = assert.async();
-
   subject.doSubmit()
   .then(() => {
     assert.ok(subject.transitionTo.calledWith('node', 42));
-    done();
   });
 });
 
@@ -93,7 +88,6 @@ test('it shows an alert message if a submit fails', function(assert) {
   var fakeObject = setupDoSubmit(subject);
   fakeObject.save = () => Ember.RSVP.reject({message: "epic fail"});
 
-  var done = assert.async();
 
   subject.doSubmit()
   .then(() => {
@@ -101,7 +95,6 @@ test('it shows an alert message if a submit fails', function(assert) {
 
     //this is fine because the "next node" should still be this node
     assert.ok(subject.transitionTo.calledWith('node', 42));
-    done();
   });
 });
 
@@ -110,11 +103,8 @@ test('it transitions to the process after submit if there is no next node',
     var fakeObject = setupDoSubmit(subject);
     fakeObject.getNextNode = () => null;
 
-    var done = assert.async();
-
     subject.doSubmit()
     .then(() => {
       assert.ok(subject.transitionTo.calledWith('process', 42));
-      done();
     });
   });

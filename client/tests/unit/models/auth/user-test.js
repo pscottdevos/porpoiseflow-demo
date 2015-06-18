@@ -27,19 +27,14 @@ test('it gets the user\'s next node in a process, if available',
 
     model.store.findsForTypeKey('porpoiseflow/node', [node]);
 
-    var done = assert.async();
-
-
     Ember.run(() => {
       model.set('id', 42);
-
 
       model.getNextNode(process)
       .then((finalNode) => {
         assert.ok(model.store.find.calledOnce);
         assert.strictEqual(node, finalNode);
         assert.ok(node.recast.called);
-        done();
       });
     });
 });
@@ -58,7 +53,6 @@ test('it gets an available node in a process, if there is no "next" node',
     });
     node.assign = sinon.stub().returns(toPromiseProxy(node));
 
-
     model.store.findsForTypeKey('porpoiseflow/node', (id, options) => {
       if (options.available_for_actor === 42) {
         return [node];
@@ -66,10 +60,6 @@ test('it gets an available node in a process, if there is no "next" node',
 
       return [];
     });
-
-
-    var done = assert.async();
-
 
     Ember.run(() => {
       model.set('id', 42);
@@ -79,7 +69,6 @@ test('it gets an available node in a process, if there is no "next" node',
         assert.ok(model.store.find.calledTwice);
         assert.strictEqual(node, finalNode);
         assert.ok(node.assign.called);
-        done();
       });
     });
 });

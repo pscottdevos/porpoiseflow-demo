@@ -47,12 +47,9 @@ test('sends an AJAX request to assign a task node', function(assert) {
     id: 1
   });
 
-  var done = assert.async();
-
   adapter.assign(node, store, actor)
   .then((finalNode) => {
     assert.strictEqual(node, finalNode);
-    done();
   });
 
   //the first argument to the first call of ajaxStub
