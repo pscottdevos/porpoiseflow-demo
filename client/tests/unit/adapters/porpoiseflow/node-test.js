@@ -11,18 +11,16 @@ moduleFor('adapter:porpoiseflow/node', 'Unit | Adapter | porpoiseflow/node', {
   // needs: ['serializer:foo']
   setup: function() {
     ajaxStub = sinon.stub(Ember.$, 'ajax', function() {
-      var fakeJqXHR = {};
-      fakeJqXHR.done = function(callback) {
-        this.doneCallback = callback;
-        return this;
+      return {
+        done: function(callback) {
+          this.doneCallback = callback;
+          return this;
+        },
+        fail: function(callback) {
+          this.failCallback = callback;
+          return this;
+        }
       };
-
-      fakeJqXHR.fail = function(callback) {
-        this.failCallback = callback;
-        return this;
-      };
-
-      return fakeJqXHR;
     });
   },
 
@@ -57,15 +55,22 @@ test('sends an AJAX request to assign a task node', function(assert) {
     done();
   });
 
-  assert.strictEqual(ajaxStub.args[0][0].url, 'api/task-nodes/42');
-  assert.strictEqual(ajaxStub.args[0][0].type, 'PATCH');
-  assert.strictEqual(ajaxStub.args[0][0].data,
+  //the first argument to the first call of ajaxStub
+  //(see sinon docs for sinon.spy)
+  var optionsToAjax = ajaxStub.args[0][0];
+
+  assert.strictEqual(optionsToAjax.url, 'api/task-nodes/42');
+  assert.strictEqual(optionsToAjax.type, 'PATCH');
+  assert.strictEqual(optionsToAjax.data,
     '{"porpoiseflow/taskNode":{"actor":1}}');
 
 
+  //the result of assign() calling ajaxStub (our fake jqXHR object from setup())
+  var fakeJqXHR = ajaxStub.returnValues[0];
+
   //cause the fake server to "respond" with the appropriate data
   //(thus resolving the promise and finishing the test)
-  ajaxStub.returnValues[0].doneCallback({
+  fakeJqXHR.doneCallback({
     'porpoiseflow/taskNode': {
       id: 42,
       subclass: 'TaskNode'

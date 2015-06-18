@@ -3,7 +3,8 @@ import { moduleForComponent, test } from 'ember-qunit';
 import Ember from 'ember';
 import DS from 'ember-data';
 
-import { fakeStore, emberObj as obj } from 'client/tests/helpers/utils';
+import fakeStore from 'client/tests/helpers/fake-store';
+import { emberObj as obj } from 'client/tests/helpers/utils';
 
 moduleForComponent('process-link', 'Unit | Component | process link', {
   // Specify the other units that are required for this test

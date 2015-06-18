@@ -1,9 +1,10 @@
 import Ember from 'ember';
 import RoutesTaskMixin from 'client/mixins/routes/task';
 import { module, test } from 'qunit';
-import { fakeStore, emberObj as obj,
-  toPromiseProxy } from 'client/tests/helpers/utils';
 import sinon from 'sinon';
+
+import fakeStore from 'client/tests/helpers/fake-store';
+import { emberObj as obj, toPromiseProxy } from 'client/tests/helpers/utils';
 
 var setupDoSubmit = (taskRoute) => {
   //doSubmit requires a long chain of promises and resolutions
