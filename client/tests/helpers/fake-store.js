@@ -108,9 +108,14 @@ var FakeStore = Ember.Object.extend({
   /**
    * Mock find() behavior for one type key. Result can be either an object,
    * array, or a function (see alwaysFindsFrom for details).
+   *
+   * **Overwrites** previous calls to alwaysFinds(), but **builds on** previous
+   * calls to alwaysFindsFrom or findsForTypeKey.
    */
   findsForTypeKey: function(typeKey, result) {
+    this.set('alwaysFindResult', undefined);
     this.get('findResults')[typeKey] = result;
+    return this;
   },
 
   /**

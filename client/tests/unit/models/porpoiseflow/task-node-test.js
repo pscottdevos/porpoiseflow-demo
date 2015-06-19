@@ -31,8 +31,6 @@ test('gets its associated task, if one exists', function(assert) {
 
   model.store = fakeStore().alwaysFinds(tasks);
 
-  var done = assert.async();
-
   Ember.run(() => {
     model.set('id', 10);
     model.getTask()
@@ -40,7 +38,6 @@ test('gets its associated task, if one exists', function(assert) {
       assert.strictEqual(task.get('id'), 42);
       assert.ok(model.store.find.calledWith(
         'porpoiseflow/task', { task_node: 10 }));
-      done();
     });
   });
 });
@@ -51,8 +48,6 @@ test('gets no associated task, if there isn\'t one', function(assert) {
 
   model.store = fakeStore().alwaysFinds(tasks);
 
-  var done = assert.async();
-
   Ember.run(() => {
     model.set('id', 10);
     model.getTask()
@@ -60,7 +55,6 @@ test('gets no associated task, if there isn\'t one', function(assert) {
       assert.strictEqual(task, null);
       assert.ok(model.store.find.calledWith(
         'porpoiseflow/task', { task_node: 10 }));
-      done();
     });
   });
 });
