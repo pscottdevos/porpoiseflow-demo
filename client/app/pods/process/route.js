@@ -8,16 +8,18 @@ export default Ember.Route.extend({
 
   render: function() {
     this._super();
-    this.schedulePoll();
+    this.schedulePoll(true);
   },
 
-  schedulePoll: function() {
+  schedulePoll: function(runOnce) {
     return Ember.run.later(this,
-      function(model) {
-        this.redirectToNext(model);
-        this.set('timer', this.schedulePoll());
+      function(args) {
+        this.redirectToNext(args.model);
+        if ( !args.runOnce ) {
+          this.set('timer', this.schedulePoll());
+        }
       },
-      this.get('controller.model'),
+      { model:this.get('controller.model'), runOnce:runOnce },
       1000);
   },
 
