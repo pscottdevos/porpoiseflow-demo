@@ -57,6 +57,8 @@ task_registry.register(Logging)
 
 class Choice(Task):
     choices = models.CharField(max_length=120)
+    multiple_choice = models.CharField(max_length=5, default='true', blank=True,
+        choices=(('true', 'true'), ('false', 'false')))
 
     def handle_transition(self, transition):
         return transition.name in self.choices.split()
