@@ -15,5 +15,8 @@
     "bootstrap-sass": "~3.3.4",
     "sinonjs": "~1.14.1",
     "blanket": "~1.1.5"
+  },
+  "devDependencies": {
+    "bind-polyfill": "~1.0.0"
   }
 }

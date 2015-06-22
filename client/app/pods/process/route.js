@@ -8,18 +8,19 @@ export default Ember.Route.extend({
 
   render: function() {
     this._super();
-    this.schedulePoll(true);
+
+    if (!this.get('controller.model.isComplete')) {
+      this.schedulePoll();
+    }
   },
 
   schedulePoll: function(runOnce) {
     return Ember.run.later(this,
-      function(args) {
-        this.redirectToNext(args.model);
-        if ( !args.runOnce ) {
-          this.set('timer', this.schedulePoll());
-        }
+      function(model) {
+        return model.reload().then((reloadedModel) =>
+          this.transitionOrHold(reloadedModel));
       },
-      { model:this.get('controller.model'), runOnce:runOnce },
+      this.get('controller.model'),
       1000);
   },
 
@@ -28,46 +29,54 @@ export default Ember.Route.extend({
   },
 
   /**
-   * Sends us to the next Node, or to holding.
+   * Sends us to the next Node, if we have one and the process is incomplete.
    */
-  redirectToNext: function(model) {
-    var process;
-    return model.reload()
+  transitionOrHold: function(model) {
+    if (model.get('isComplete')) {
+      return this.handleProcessComplete(model);
+    }
+    
+    return this.continueProcess(model);
+  },
 
-    .then((fetchedModel) => {
-      process = fetchedModel;
-      return process.get('owner');
-    })
+  /**
+   * If our process is a subprocess of another node, transition to that node.
+   * Otherwise, do nothing.
+   */
+  handleProcessComplete: function(process) {
+    return process.get('subprocessOf')
+    .then((node) => {
+      if (node) {
+        return node.get('process')
+
+        .then((process) => this.replaceWith('process', process.get('id')));
+      } else {
+        return null;
+      }
+    });
+  },
+
+  /**
+   * Check for another node in our process. If we find one, transition to it.
+   * Otherwise, schedule another poll.
+   */
+  continueProcess: function(process) {
+    return process.get('owner')
 
     .then((owner) => {
-      var statusName = process.get('statusName');
-
-      if (statusName === 'complete') {
-
-        this.cancelPoll();
-        process.get('subprocessOf')
-        .then((node) => {
-          if (node) {
-            return node.get('process')
-
-            .then((process) => this.replaceWith('process', process.get('id')));
-          } else {
-            return null;
-          }
-        });
-      } else {
-        
-        return owner.getNextNode(process)
-        .then((node) =>
-        {
-          if (node && node.get('subclass') === 'TaskNode') {
-            this.cancelPoll();
-            return this.replaceWith('node', node.get('id'));
-          } else {
-            return null;
-          }
-        });
-      }
+      return owner.getNextNode(process)
+      .then((node) =>
+      {
+        if (node && node.get('subclass') === 'TaskNode') {
+          //there probably won't actually be a running poll at this point, but
+          //just in case
+          this.cancelPoll();
+          return this.replaceWith('node', node.get('id'));
+        } else {
+          this.set('timer', this.schedulePoll());
+          return null;
+        }
+      });
     });
   },
 

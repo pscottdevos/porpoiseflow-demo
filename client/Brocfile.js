@@ -17,6 +17,12 @@ var app = new EmberApp();
 // please specify an object with the list of modules as keys
 // along with the exports of each module as its value.
 
+if (EmberApp.env() !== 'production') {
+  //this is ONLY needed because PhantomJS doesn't support bind()
+  //if Phantom adds bind(), we can take this out
+  app.import(app.bowerDirectory + '/bind-polyfill/index.js', { type: 'test' });
+}
+
 app.import(
   app.bowerDirectory + '/bootstrap-sass/assets/javascripts/bootstrap.js');
 
