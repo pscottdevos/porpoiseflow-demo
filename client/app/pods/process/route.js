@@ -14,7 +14,7 @@ export default Ember.Route.extend({
     }
   },
 
-  schedulePoll: function() {
+  schedulePoll: function(runOnce) {
     return Ember.run.later(this,
       function(model) {
         return model.reload().then((reloadedModel) =>
