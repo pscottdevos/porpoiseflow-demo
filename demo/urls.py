@@ -5,7 +5,7 @@ from porpoiseflow import api
 
 from demo.api import (
     ProcessViewSet, UserViewSet, GroupViewSet, LoggingViewSet, ChoiceViewSet,
-    ProcessDefViewSet, TransitionViewSet)
+    ProcessDefViewSet, TransitionViewSet, NodeDefPropertyViewSet)
 from demo.models import load_process_defs, create_users
 from demo.views import ClientView
 
@@ -25,6 +25,10 @@ router.register(
     'groups', GroupViewSet, base_name='group')
 router.register(
     'transitions', TransitionViewSet, base_name='transition')
+router.register(
+    'node-def-properties', NodeDefPropertyViewSet,
+    base_name='nodedefproperty')
+
 
 
 # Defs
@@ -32,10 +36,6 @@ router.register(
     'process-defs', ProcessDefViewSet, base_name='processdef')
 
 router.register('node-defs', api.NodeDefViewSet, base_name='nodedef')
-
-router.register(
-    'node-def-properties', api.NodeDefPropertyViewSet,
-    base_name='nodedefproperty')
 
 router.register(
     'start-node-defs', api.StartNodeDefViewSet, base_name='startnodedef')

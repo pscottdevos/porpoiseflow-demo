@@ -7,7 +7,8 @@ from porpoiseflow.api import (
     GroupViewSet as OriginalGroupViewSet,
     ProcessDefViewSet as OriginalProcessDefViewSet,
     ProcessViewSet as OriginalProcessViewSet,
-    TransitionViewSet as OriginalTransitionViewSet)
+    TransitionViewSet as OriginalTransitionViewSet,
+    NodeDefPropertyViewSet as OriginalNodeDefPropertyViewSet)
 from porpoiseflow.models import Process, ProcessDef
 
 from demo import models, serializers
@@ -53,3 +54,6 @@ class ProcessViewSet(OriginalProcessViewSet):
 
 class TransitionViewSet(OriginalTransitionViewSet):
     filter_fields = ('input',)
+
+class NodeDefPropertyViewSet(OriginalNodeDefPropertyViewSet):
+    filter_fields = ('node_def', 'name')
