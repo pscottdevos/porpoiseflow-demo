@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name='choice',
-            name='multiple_choice',
-            field=models.CharField(default=b'true', max_length=5, blank=True, choices=[(b'true', b'true'), (b'false', b'false')]),
+            name='widget_type',
+            field=models.CharField(default=b'checkbox', max_length=8, choices=[(b'text', b'text'), (b'checkbox', b'checkbox')]),
         ),
     ]

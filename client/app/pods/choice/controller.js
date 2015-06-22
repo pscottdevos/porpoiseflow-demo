@@ -14,13 +14,13 @@ export default Ember.Controller.extend({
       nodeDef = fetchedNodeDef;
       return this.store.find('porpoiseflow/node-def-property', {
         node_def: nodeDef.get('id'),
-        name: 'multiple_choice'
+        name: 'widget_type'
       })
 
       .then((nodeProperties) => {
         if (nodeProperties.get('length') > 0) {
           var nodeProperty = nodeProperties.objectAt(0);
-          if (nodeProperty.get('value') === 'false') {
+          if (nodeProperty.get('value') === 'text') {
             return [];
           }
         }

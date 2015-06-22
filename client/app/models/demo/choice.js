@@ -3,5 +3,5 @@ import Task from '../porpoiseflow/task';
 
 export default Task.extend({
   choices: DS.attr('string'),
-  multiple_choice: DS.attr('string', { defaultValue: 'true' })
+  widget_type: DS.attr('string', { defaultValue: 'checkbox' })
 });
