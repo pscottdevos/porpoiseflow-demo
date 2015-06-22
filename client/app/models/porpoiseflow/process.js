@@ -10,5 +10,9 @@ export default DS.Model.extend({
 
   owner: DS.belongsTo('auth/user', { async: true }),
   createdOn: DS.attr('date'),
-  statusName: DS.attr('string')
+  statusName: DS.attr('string'),
+
+  isComplete: function() {
+    return this.get('statusName') === 'complete';
+  }.property('statusName'),
 });
