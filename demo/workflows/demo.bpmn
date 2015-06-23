@@ -58,9 +58,9 @@
       <bpmn2:incoming>SequenceFlow_10</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_13</bpmn2:outgoing>
     </bpmn2:callActivity>
-    <bpmn2:sequenceFlow id="SequenceFlow_7" name="Process 1" sourceRef="ExclusiveGateway_2" targetRef="CallActivity_1"/>
-    <bpmn2:sequenceFlow id="SequenceFlow_9" name="Process 2" sourceRef="ExclusiveGateway_2" targetRef="CallActivity_2"/>
-    <bpmn2:sequenceFlow id="SequenceFlow_10" name="Process 3" sourceRef="ExclusiveGateway_2" targetRef="CallActivity_4"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_7" name="Process_1" sourceRef="ExclusiveGateway_2" targetRef="CallActivity_1"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_9" name="Process_2" sourceRef="ExclusiveGateway_2" targetRef="CallActivity_2"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_10" name="Process_3" sourceRef="ExclusiveGateway_2" targetRef="CallActivity_4"/>
     <bpmn2:sequenceFlow id="SequenceFlow_11" name="" sourceRef="CallActivity_2" targetRef="ExclusiveGateway_3"/>
     <bpmn2:sequenceFlow id="SequenceFlow_12" name="" sourceRef="CallActivity_1" targetRef="ExclusiveGateway_3"/>
     <bpmn2:sequenceFlow id="SequenceFlow_13" name="" sourceRef="CallActivity_4" targetRef="ExclusiveGateway_3"/>
