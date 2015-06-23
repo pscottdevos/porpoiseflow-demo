@@ -18,7 +18,11 @@ PROCESSES = [
     ('subprocess_pattern', 'subprocess.bpmn'),
     ('loop_2', 'loop2-multi-instance.bpmn'),
     ('nested_branches', 'nested-branches1.bpmn'),
-    ('work_history', 'work-history.bpmn')
+]
+
+DEMO_PROCESSES = [
+    ('work_history', 'work-history.bpmn'),
+    ('demo', 'demo.bpmn'),
 ]
 
 USERS = [
@@ -30,12 +34,14 @@ def load_process_defs():
     handler = Bpmn2Handler(add_groups=True)
     existing_process_defs = ProcessDef.objects.values_list('process_id',
         flat=True)
-    for process_id, filename in PROCESSES:
-        if not process_id in existing_process_defs:
-            pattern_dir = os.path.join(
-                os.path.dirname(tests.__file__), 'patterns')
-            handler.parse(os.path.join(pattern_dir, filename))
-
+    grouped_processes = (
+        (PROCESSES, os.path.join(os.path.dirname(tests.__file__), 'patterns')),
+        (DEMO_PROCESSES, os.path.join(os.path.dirname(__file__), 'workflows'))
+    )
+    for processes, directory in grouped_processes:
+        for process_id, filename in processes:
+            if not process_id in existing_process_defs:
+                handler.parse(os.path.join(directory, filename))
 
 def create_users():
     User = get_user_model()
