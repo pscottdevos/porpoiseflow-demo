@@ -1,7 +1,8 @@
 import { moduleFor, test } from 'ember-qunit';
-import { emberObj as obj, toPromiseProxy } from 'client/tests/helpers/utils';
-
 import sinon from 'sinon';
+
+import { emberObj as obj, toPromiseProxy } from 'client/tests/helpers/utils';
+import fakeStore from 'client/tests/helpers/fake-store';
 
 moduleFor('controller:choice', {
   // Specify the other units that are required for this test.
@@ -11,7 +12,8 @@ moduleFor('controller:choice', {
 // Replace this with your real tests.
 test('it finds valid choices for its model', function(assert) {
   var controller = this.subject();
-  
+  controller.store = fakeStore().alwaysFinds([obj()]);
+
   //this "diagram" goes from model, to an Exclusive Gateway, to three outgoing
   //transitions called "foo", "bar", and "baz"
 
@@ -26,24 +28,20 @@ test('it finds valid choices for its model', function(assert) {
     })
   });
 
-  // transitionAfterChoice.get('output').getOutgoingTransitions
+  var nodeDef = obj({
+      isSettled: true,
+      getOutgoingTransitions: sinon.spy(() =>
+        toPromiseProxy([transitionAfterChoice]))
+    });
 
-  var model = obj({
-    taskNode: obj({
-      nodeDef: toPromiseProxy(obj({
-        getOutgoingTransitions: sinon.spy(() =>
-          toPromiseProxy([transitionAfterChoice]))
-      }))
-    })
-  });
-
-  controller.set('model', model);
-
+  controller.set('model', obj());
+  controller.set('nodeDef', nodeDef);
+  controller.set('widgetType', 'checkbox');
 
   controller.get('validChoices')
 
   .then((validChoices) => {
-    assert.ok(model.get('taskNode.nodeDef.getOutgoingTransitions').called);
+    assert.ok(nodeDef.get('getOutgoingTransitions').called);
     assert.ok(
       transitionAfterChoice.get('output.getOutgoingTransitions').called);
 
