@@ -9,5 +9,6 @@ export default DS.Model.extend({
   enabled: DS.attr('boolean'),
   date: DS.attr('date'),
   name: DS.attr('string'),
+  processId: DS.attr('string'),
   description: DS.attr('string')
 });
