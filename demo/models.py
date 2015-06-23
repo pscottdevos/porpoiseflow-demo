@@ -18,6 +18,7 @@ PROCESSES = [
     ('subprocess_pattern', 'subprocess.bpmn'),
     ('loop_2', 'loop2-multi-instance.bpmn'),
     ('nested_branches', 'nested-branches1.bpmn'),
+    ('work_history', 'work-history.bpmn')
 ]
 
 USERS = [
