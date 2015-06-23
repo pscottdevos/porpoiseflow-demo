@@ -1,16 +1,26 @@
 {{#task-form task=model}}
-    {{#if validChoices}}
+    {{#if useCheckboxes}}
         <p id="errorLabel" class="label label-danger"></p>
         {{#each validChoices as |choice|}}
             {{input type="checkbox" checked=choice.isChecked name=choice.validTransition.name}} {{ choice.validTransition.name }}
         {{/each}}
+        <span class="input-group-btn">
+            <button {{action 'submit'}}>Submit!</button>
+        </span>
+    {{else if useButtons}}
+      <p id="errorLabel" class="label label-danger"></p>
+        <div class="well">
+          <ul class="choice-buttons">{{#each validChoices as |choice|}}
+            <li><button {{action 'selectAndSubmit' choice.validTransition}}>{{choice.validTransition.name}}</button></li>
+          {{/each}}</ul>
+        </div>
     {{else}}
         <div class="input-group">
           <p id="errorLabel" class="label label-danger"></p>
           {{input type="text" value=model.choices placeholder='Choose.'}}
         </div>
+        <span class="input-group-btn">
+            <button {{action 'submit'}}>Submit!</button>
+        </span>
     {{/if}}
-    <span class="input-group-btn">
-        <button {{action 'submit'}}>Submit!</button>
-    </span>
 {{/task-form}}

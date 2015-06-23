@@ -12,6 +12,11 @@ export default Ember.Route.extend(TaskMixin, {
   actions:{
     submit: function() {
       this.doSubmit();
+    },
+
+    selectAndSubmit: function(validTransition) {
+      this.get('controller.model').set('choices', validTransition.get('name'));
+      this.doSubmit();
     }
   }
 });

@@ -5,6 +5,19 @@
   @extend .list-group;
 }
 
+.choice-buttons {
+  @extend .list-group;
+
+  li {
+    display: block;
+    list-style-type: none;
+
+    button {
+      width: 100%;
+    }
+  }
+}
+
 .task {
   @extend .col-md-4;
 

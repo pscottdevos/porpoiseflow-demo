@@ -20,13 +20,21 @@ export default Ember.Controller.extend({
     }
   }.observes('taskNode.nodeDef'),
 
-  //valid values are 'checkbox' or 'text'
+  //valid values are 'checkbox', 'button', or 'text'
   widgetType: 'checkbox',
+
+  useCheckboxes: function() {
+    return this.get('widgetType') === 'checkbox';
+  }.property('widgetType'),
+
+  useButtons: function() {
+    return this.get('widgetType') === 'button';
+  }.property('widgetType'),
 
   /**
    * Sets widgetType once the required nodeDefProperty comes in from the server.
    */
-  widgetTypeObserver: function() {
+  widgetTypeObserver: function() {    
     var nodeDef = this.get('nodeDef');
 
     if (!nodeDef) {
@@ -49,7 +57,7 @@ export default Ember.Controller.extend({
   validChoices: function() {
     var nodeDef = this.get('nodeDef');
 
-    if (this.get('widgetType') !== 'checkbox' || !nodeDef) {
+    if (this.get('widgetType') === 'text' || !nodeDef) {
       return [];
     }
 

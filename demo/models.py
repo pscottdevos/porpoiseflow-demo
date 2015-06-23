@@ -59,7 +59,7 @@ task_registry.register(Logging)
 class Choice(Task):
     choices = models.CharField(max_length=120)
     widget_type = models.CharField(max_length=8, default='checkbox', choices=(
-        ('text', 'text'), ('checkbox', 'checkbox')
+        ('text', 'text'), ('checkbox', 'checkbox'), ('button', 'button')
     ))
 
     def handle_transition(self, transition):

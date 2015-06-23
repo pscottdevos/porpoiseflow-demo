@@ -70,3 +70,39 @@ test('it builds the currently selected choices into a string',
     assert.strictEqual(controller.get('model.choices'), 'foo baz ');
   }
 );
+
+test('it finds the widget type from the store', function(assert) {
+  var controller = this.subject();
+
+  controller.store = fakeStore().alwaysFinds([obj({value: 'foobar'})]);
+
+  var done = assert.async();
+
+  //we won't get a promise, so we need to observe the property instead
+  controller.addObserver('widgetType', this, () => {
+    assert.ok(controller.store.find.called,
+      'the store should be called');
+    assert.strictEqual(controller.get('widgetType'), 'foobar');
+    done();
+  });
+
+  controller.set('nodeDef', obj({id:15}));
+});
+
+test('it selects the correct choice widget',
+  function(assert) {
+    var controller = this.subject();
+
+    controller.set('widgetType', 'checkbox');
+
+    assert.ok(controller.get('useCheckboxes'));
+    assert.ok(!controller.get('useButtons'));
+
+    controller.set('widgetType', 'button');
+
+    assert.ok(!controller.get('useCheckboxes'));
+    assert.ok(controller.get('useButtons'));
+  }
+);
+
+
