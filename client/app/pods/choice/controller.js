@@ -3,13 +3,22 @@ import DS from 'ember-data';
 
 export default Ember.Controller.extend({
 
-  taskNode: function() {
-    return this.get('model.taskNode');
-  }.property('model.taskNode.isSettled'),
+  taskNode: null,
+  taskNodeObserver: function() {
+    var taskNodePromise = this.get('model.taskNode');
+    if (taskNodePromise) {
+      taskNodePromise.then((taskNode) => this.set('taskNode', taskNode));
+    }
+  }.observes('model.taskNode'),
 
-  nodeDef: function() {
-    return this.get('taskNode.nodeDef');
-  }.property('taskNode.nodeDef.isSettled'),
+  nodeDef: null,
+  nodeDefObserver: function() {
+    var nodeDefPromise = this.get('taskNode.nodeDef');
+
+    if (nodeDefPromise) {
+      nodeDefPromise.then((nodeDef) => this.set('nodeDef', nodeDef));
+    }
+  }.observes('taskNode.nodeDef'),
 
   //valid values are 'checkbox' or 'text'
   widgetType: 'checkbox',
@@ -17,10 +26,10 @@ export default Ember.Controller.extend({
   /**
    * Sets widgetType once the required nodeDefProperty comes in from the server.
    */
-  widgetTypeSetter: function() {
+  widgetTypeObserver: function() {
     var nodeDef = this.get('nodeDef');
 
-    if (!nodeDef || !nodeDef.get('isSettled')) {
+    if (!nodeDef) {
       return;
     }
 
@@ -35,16 +44,16 @@ export default Ember.Controller.extend({
         this.set('widgetType', nodeProperty.get('value'));
       }
     });
-  }.observes('nodeDef.isSettled'),
+  }.observes('nodeDef'),
 
   validChoices: function() {
     var nodeDef = this.get('nodeDef');
 
-    if (this.get('widgetType') !== 'checkbox' || !nodeDef.get('isSettled')) {
+    if (this.get('widgetType') !== 'checkbox' || !nodeDef) {
       return [];
     }
 
-    var promise = nodeDef.getOutgoingTransitions()
+    var promise = nodeDef.get('getOutgoingTransitions').bind(nodeDef)()
 
     .then((transitions) =>
       transitions.objectAt(0).get('output'))
@@ -57,7 +66,7 @@ export default Ember.Controller.extend({
         subclass !== 'ParallelGatewayDef'
       ) { return null; }
 
-      return gatewayDef.getOutgoingTransitions()
+      return gatewayDef.get('getOutgoingTransitions').bind(gatewayDef)()
 
       .then((validTransitions) =>
         validTransitions.map((validTransition) =>
@@ -70,7 +79,7 @@ export default Ember.Controller.extend({
     });
 
     return DS.PromiseArray.create({promise:promise});
-  }.property('nodeDef.isSettled', 'widgetType'),
+  }.property('nodeDef', 'widgetType'),
 
   selectedChoices: function() {
     var selected = this.get('validChoices').filterBy('isChecked', true);
