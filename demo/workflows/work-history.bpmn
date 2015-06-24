@@ -69,7 +69,7 @@
     </bpmn2:exclusiveGateway>
     <bpmn2:sequenceFlow id="SequenceFlow_13" name="Yes" sourceRef="ExclusiveGateway_3" targetRef="ExclusiveGateway_1"/>
     <bpmn2:sequenceFlow id="SequenceFlow_14" name="No" sourceRef="ExclusiveGateway_3" targetRef="ExclusiveGateway_4"/>
-    <bpmn2:task id="Task_3" name="Current job info">
+    <bpmn2:task id="Task_3" name="Is this your current job?">
       <bpmn2:extensionElements>
         <camunda:properties>
           <camunda:property value="Logging" name=":TaskClass"/>
@@ -77,6 +77,7 @@
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_5</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_6</bpmn2:outgoing>
+      <bpmn2:multiInstanceLoopCharacteristics/>
     </bpmn2:task>
     <bpmn2:sequenceFlow id="SequenceFlow_6" name="" sourceRef="Task_3" targetRef="Task_4"/>
     <bpmn2:task id="Task_4" name="Any more work experience to enter?">

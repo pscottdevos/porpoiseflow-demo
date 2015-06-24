@@ -94,7 +94,7 @@ export default Ember.Controller.extend({
     var choice = this.get('model');
     var newChoices = "";
     selected.forEach(function(item, index, enumerable) {
-      newChoices = newChoices + item.get('validTransition.name') + " ";
+      newChoices = newChoices + item.get('validTransition.name') + "//";
     });
     choice.set('choices', newChoices);
   }.observes('validChoices.@each.isChecked'),
