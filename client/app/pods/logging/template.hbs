@@ -1,6 +1,8 @@
 {{#task-form task=model}}
   <div class="input-group">
-    {{input type="text" value=model.text placeholder='Log this!'}}
+    {{#if showTextBox}}
+      {{input type="text" value=model.text placeholder='Log this!'}}
+    {{/if}}
     <span class="input-group-btn">
       <button {{action 'submit'}}>Submit!</button>
     </span>

@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
-export default Ember.Controller.extend({
+import LogggingController from '../controller';
+
+export default LogggingController.extend({
   queryParams: ['task_node_id'],
 
 });

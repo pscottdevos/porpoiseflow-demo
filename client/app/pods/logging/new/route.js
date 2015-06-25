@@ -6,6 +6,12 @@ export default LoggingRoute.extend({
     return this.taskModel('demo/logging', params);
   },
 
+  setNodeDefProperties: function(model, properties) {
+    if (properties.get('widgetType')) {
+      model.set('widgetType', properties.get('widgetType.value'));
+    }
+  },
+
   renderTemplate: function(controller, model) {
     this.render('logging', { controller: controller });
   },

@@ -21,9 +21,11 @@ export default DS.Model.extend({
   /**
    * A PromiseObject comprising all node-def-properties for this node-def. The
    * names of the properties are mapped to their model instances, e.g.,
-   * `this.get('nodeDefProperties.widget_type.value') === 'button'`.
+   * `this.get('nodeDefProperties.widgetType.value') === 'button'`.
    *
-   * Note that property names are in their original (underscored) form.
+   * Note that property names are in camelCased form. To get the original
+   * (underscored) name, refer to the instance:
+   * `this.get('nodeDefProperties.widgetType.name') === 'widget_type'`
    * @return {DS.PromiseObject}
    */
   nodeDefProperties: function() {
@@ -34,7 +36,7 @@ export default DS.Model.extend({
       var propertyMapping = Ember.Object.create();
 
       properties.forEach((property) =>
-        propertyMapping.set(property.get('name'), property));
+        propertyMapping.set(property.get('name').camelize(), property));
 
       return propertyMapping;
     });
