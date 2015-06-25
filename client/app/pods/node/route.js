@@ -1,15 +1,27 @@
 import Ember from 'ember';
 
+import config from 'client/config/environment';
+
 export default Ember.Route.extend({
 
   model: function(params) {
     return this.store.find('porpoiseflow/node', params.id);
   },
 
+  afterModel: function(model, transition) {
+    if (!config.APP.USE_ANIMATIONS) {
+      return this.redirectToNext(model);
+    }
+  },
+
   render: function() {
     this._super();
-    Ember.run.later(this, this.redirectToNext, this.get('controller.model'),
-      1000);
+    if(config.APP.USE_ANIMATIONS) {
+      Ember.run.later(this,
+        this.redirectToNext, this.get('controller.model'),
+        1000);
+    }
+
   },
 
   /**

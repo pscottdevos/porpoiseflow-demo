@@ -53,7 +53,9 @@ def create_users():
 
 
 class Logging(Task):
-    text = models.CharField(max_length=120)
+    text = models.CharField(max_length=120, blank=True, null=True)
+    widget_type = models.CharField(max_length=4, default='text', choices=(
+        ('text', 'text'), ('none', 'none')))
 
     def save(self, *args, **kwargs):
         print('\033[92mNode name: {0}, actor: {1}, text: {2}\033[0m'.format(
@@ -71,3 +73,8 @@ class Choice(Task):
     def handle_transition(self, transition):
         return transition.name in self.choices.split('//')
 task_registry.register(Choice)
+
+
+class AutocompleteTask(Task):
+    autocomplete = True
+task_registry.register(AutocompleteTask)

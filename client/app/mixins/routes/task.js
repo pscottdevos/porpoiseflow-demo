@@ -17,11 +17,7 @@ export default Ember.Mixin.create({
       return this.store.find('porpoiseflow/taskNode', params.task_node_id)
 
       .then((taskNode) => {
-        var task = this.store.createRecord(modelName, {
-          taskNode: taskNode
-        });
-        this.set('inProgressModel', task);
-        return task;
+        return this.createTaskFor(modelName, taskNode);
       });
     } else {
       return this.store.find(modelName, params.id)
@@ -31,6 +27,33 @@ export default Ember.Mixin.create({
       });
     }
   },
+
+  /**
+   * Create and return a new instance of modelName for taskNode, after assigning
+   * any node def properties. Returns a Promise.
+   */
+  createTaskFor: function(modelName, taskNode) {
+    var task = this.store.createRecord(modelName, {
+      taskNode: taskNode
+    });
+    this.set('inProgressModel', task);
+    return taskNode.get('nodeDef')
+    .then((nodeDef) => nodeDef.get('nodeDefProperties'))
+    .then((properties) => {
+      this.setNodeDefProperties(task, properties);
+      return task;
+    });
+  },
+
+  /**
+   * Assign node def properties to a newly-created model instance as
+   * appropriate (given a model instance and an object containing
+   * node def proprties). Does nothing by default.
+   * @param {Task} model
+   * @param {[type]} nodeDefProperties resolved result of
+   *                                   nodeDef.get('nodeDefProperties')
+   */
+  setNodeDefProperties: function(model, nodeDefProperties) { },
 
   doSubmit: function(){
     var process;

@@ -1,9 +1,22 @@
 import Ember from 'ember';
 
+import config from 'client/config/environment';
+
 export default Ember.Route.extend({
 
   model: function(params) {
     return this.store.find('porpoiseflow/process', params.id);
+  },
+
+  afterModel: function(model) {
+    //if we're using animations, we want to hold at least one second on this
+    //page to make the animation look "right"
+
+    //if we're NOT using animations, we should give the page a chance to
+    //transition without even rendering:
+    if(!config.APP.USE_ANIMATIONS && !model.get('isComplete')) {
+      return model.reload().then((reloaded) => this.continueProcess(reloaded));
+    }
   },
 
   render: function() {
@@ -14,7 +27,7 @@ export default Ember.Route.extend({
     }
   },
 
-  schedulePoll: function(runOnce) {
+  schedulePoll: function() {
     return Ember.run.later(this,
       function(model) {
         return model.reload().then((reloadedModel) =>
@@ -80,4 +93,9 @@ export default Ember.Route.extend({
     });
   },
 
+  actions: {
+    willTransition: function() {
+      this.cancelPoll();
+    }
+  }
 });

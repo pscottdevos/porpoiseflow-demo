@@ -3,11 +3,12 @@ import Ember from 'ember';
 import { moduleFor, test } from 'ember-qunit';
 import sinon from 'sinon';
 
+import config from 'client/config/environment';
 import fakeStore from 'client/tests/helpers/fake-store';
 import { emberObj as obj, toPromiseProxy } from 'client/tests/helpers/utils';
 
-var runLaterStub;
-var runCancelStub;
+
+var runLaterStub, runCancelStub, useAnimationsCache;
 
 moduleFor('route:process', 'Unit | Route | process', {
   // Specify the other units that are required for this test.
@@ -15,11 +16,13 @@ moduleFor('route:process', 'Unit | Route | process', {
   setup: function() {
     runLaterStub = sinon.stub(Ember.run, 'later');
     runCancelStub = sinon.stub(Ember.run, 'cancel');
+    useAnimationsCache = config.APP.USE_ANIMATIONS;
   },
 
   teardown: function() {
     runLaterStub.restore();
     runCancelStub.restore();
+    config.APP.USE_ANIMATIONS = useAnimationsCache;
   }
 });
 
@@ -237,5 +240,23 @@ test('it schedules another poll if it doesn\'t find a next node',
 
       assert.strictEqual(route.get('timer'), 'dummy timer value');
     });
+  }
+);
+
+test('it tries to continue immediately if animations are off',
+  function(assert) {
+    var route = this.subject();
+
+    var model = obj();
+    model.reload = sinon.stub().returns(toPromiseProxy(model));
+    sinon.stub(route, 'continueProcess');
+
+    config.APP.USE_ANIMATIONS = false;
+
+    route.afterModel(model)
+    .then(() => {
+      assert.ok(route.continueProcess.calledWith(model));
+    });
+
   }
 );

@@ -65,13 +65,37 @@ test('it disregards the "in progress" model if it does not match the route',
       id: 0
     }));
 
+    sinon.stub(subject, 'createTaskFor');
 
     subject.taskModel('some-task-model', {id: 1, task_node_id: 10})
 
     .then((taskModel) => {
-      assert.ok(subject.get('store').find.calledWith(
-        'porpoiseflow/taskNode', 10));
-      assert.strictEqual(taskModel.get('taskNode.id'), 10);
+      sinon.assert.calledWith(subject.get('store').find,
+        'porpoiseflow/taskNode', 10);
+      sinon.assert.called(subject.createTaskFor);
+    });
+  });
+
+test('it creates a new model and calls the hook to set properties',
+  function(assert) {
+    subject.set('store', fakeStore());
+
+    var prop = obj({fooBar: obj({name: 'foo_bar', value: 42})});
+
+    var taskNode = obj({
+      nodeDef: toPromiseProxy(obj({
+        nodeDefProperties: toPromiseProxy(prop)
+      }))
+    });
+
+    subject.setNodeDefProperties = function(model, properties) {
+      model.set('fooBar', properties.get('fooBar.value'));
+    };
+
+    subject.createTaskFor('some-model', taskNode)
+    .then((createdModel) => {
+      assert.strictEqual(createdModel.get('taskNode'), taskNode);
+      assert.strictEqual(createdModel.get('fooBar'), 42);
     });
   });
 
