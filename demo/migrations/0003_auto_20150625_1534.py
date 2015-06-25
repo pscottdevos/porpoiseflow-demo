@@ -8,7 +8,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('porpoiseflow', '0006_auto_20150617_1032'),
-        ('demo', '0002_choice_widget_type'),
+        ('demo', '0003_auto_20150625_1612'),
     ]
 
     operations = [
