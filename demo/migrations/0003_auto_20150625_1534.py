@@ -19,9 +19,4 @@ class Migration(migrations.Migration):
             ],
             bases=('porpoiseflow.task',),
         ),
-        migrations.AlterField(
-            model_name='choice',
-            name='widget_type',
-            field=models.CharField(default=b'checkbox', max_length=8, choices=[(b'text', b'text'), (b'checkbox', b'checkbox'), (b'button', b'button')]),
-        ),
     ]
