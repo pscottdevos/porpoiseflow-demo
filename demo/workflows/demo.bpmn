@@ -33,6 +33,7 @@
       <bpmn2:extensionElements>
         <camunda:properties>
           <camunda:property value="Choice" name=":TaskClass"/>
+          <camunda:property value="button" name=".widget_type"/>
         </camunda:properties>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_4</bpmn2:incoming>
@@ -49,14 +50,17 @@
     <bpmn2:callActivity id="CallActivity_1" name="Sequence Pattern" calledElement="sequence_pattern">
       <bpmn2:incoming>SequenceFlow_7</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_12</bpmn2:outgoing>
+      <bpmn2:multiInstanceLoopCharacteristics/>
     </bpmn2:callActivity>
     <bpmn2:callActivity id="CallActivity_2" name="Exclusive Choice Pattern" calledElement="exclusive_choice_simple_merge">
       <bpmn2:incoming>SequenceFlow_9</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_11</bpmn2:outgoing>
+      <bpmn2:multiInstanceLoopCharacteristics/>
     </bpmn2:callActivity>
     <bpmn2:callActivity id="CallActivity_4" name="MultiChoice Pattern" calledElement="multi_choice">
       <bpmn2:incoming>SequenceFlow_10</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_13</bpmn2:outgoing>
+      <bpmn2:multiInstanceLoopCharacteristics/>
     </bpmn2:callActivity>
     <bpmn2:sequenceFlow id="SequenceFlow_7" name="Process_1" sourceRef="ExclusiveGateway_2" targetRef="CallActivity_1"/>
     <bpmn2:sequenceFlow id="SequenceFlow_9" name="Process_2" sourceRef="ExclusiveGateway_2" targetRef="CallActivity_2"/>
@@ -74,6 +78,7 @@
       <bpmn2:extensionElements>
         <camunda:properties>
           <camunda:property value="Choice" name=":TaskClass"/>
+          <camunda:property value="button" name=".widget_type"/>
         </camunda:properties>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_14</bpmn2:incoming>
