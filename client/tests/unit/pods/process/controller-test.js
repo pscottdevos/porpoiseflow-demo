@@ -14,6 +14,8 @@ test('it always returns false for hasWaitingTask if the process is complete',
     controller.set('model', obj({statusName: 'complete'}));
 
     assert.strictEqual(controller.get('isComplete'), true);
+    assert.strictEqual(controller.get('hasWaitingTask'), false);
+
   }
 );
 
@@ -28,15 +30,13 @@ test('it knows whether we have a waiting task on this process',
     });
 
     var process = obj({ owner: toPromiseProxy(owner) });
-
     controller.set('model', process);
 
-    controller.get('hasWaitingTask')
-    .then(function(hasWaitingTask) {
-      //NOTE: does this actually work in the template?
-      //seems like we're expecting PromiseObject-like behavior here
+    var done = assert.async();
 
-      assert.strictEqual(hasWaitingTask, true);
+    controller.addObserver('hasWaitingTask', this, () => {
+      assert.strictEqual(controller.get('hasWaitingTask'), true);
+      done();
     });
   }
 );
