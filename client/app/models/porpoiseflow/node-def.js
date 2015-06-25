@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import DS from 'ember-data';
 
 export default DS.Model.extend({
@@ -15,5 +16,29 @@ export default DS.Model.extend({
 
   getOutgoingTransitions: function(){
     return this.store.find('porpoiseflow/transition', {input:this.get('id')});
-  }
+  },
+
+  /**
+   * A PromiseObject comprising all node-def-properties for this node-def. The
+   * names of the properties are mapped to their model instances, e.g.,
+   * `this.get('nodeDefProperties.widget_type.value') === 'button'`.
+   *
+   * Note that property names are in their original (underscored) form.
+   * @return {DS.PromiseObject}
+   */
+  nodeDefProperties: function() {
+    var promise = this.store.find('porpoiseflow/node-def-property', {
+      node_def: this.get('id')
+    })
+    .then((properties) => {
+      var propertyMapping = Ember.Object.create();
+
+      properties.forEach((property) =>
+        propertyMapping.set(property.get('name'), property));
+
+      return propertyMapping;
+    });
+
+    return DS.PromiseObject.create({promise: promise});
+  }.property('id'),
 });

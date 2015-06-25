@@ -32,7 +32,7 @@ export default Ember.Controller.extend({
   }.property('widgetType'),
 
   /**
-   * Sets widgetType once the required nodeDefProperty comes in from the server.
+   * Set widgetType using a node-def-property.
    */
   widgetTypeObserver: function() {    
     var nodeDef = this.get('nodeDef');
@@ -41,16 +41,9 @@ export default Ember.Controller.extend({
       return;
     }
 
-    return this.store.find('porpoiseflow/node-def-property', {
-      node_def: nodeDef.get('id'),
-      name: 'widget_type'
-    })
-
-    .then((nodeProperties) => {
-      if (nodeProperties.get('length') > 0) {
-        var nodeProperty = nodeProperties.objectAt(0);
-        this.set('widgetType', nodeProperty.get('value'));
-      }
+    return nodeDef.get('nodeDefProperties')
+    .then((properties) => {
+      this.set('widgetType', properties.get('widget_type.value'));
     });
   }.observes('nodeDef'),
 
