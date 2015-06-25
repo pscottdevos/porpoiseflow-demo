@@ -1,7 +1,11 @@
 <div class="container" role="main">
   <h1>PorpoiseFIRE</h1>
 
-  {{liquid-outlet}}
+  {{#if useAnimations}}
+    {{liquid-outlet}}
+  {{else}}
+    {{outlet}}
+  {{/if}}
 
   <p>Back to {{#link-to 'process-defs'}}process list{{/link-to}}</p>
 </div>
