@@ -72,36 +72,18 @@ test('it builds the currently selected choices into a string',
   }
 );
 
-test('it finds the widget type from the store', function(assert) {
-  var controller = this.subject();
-
-  var done = assert.async();
-
-  //we won't get a promise, so we need to observe the property instead
-  controller.addObserver('widgetType', this, () => {
-    assert.strictEqual(controller.get('widgetType'), 'foobar');
-    done();
-  });
-
-  controller.set('nodeDef', obj({
-    nodeDefProperties: toPromiseProxy(obj({
-      widget_type: obj({
-        value: 'foobar'
-      })
-    }))
-  }));
-});
-
 test('it selects the correct choice widget',
   function(assert) {
     var controller = this.subject();
 
-    controller.set('widgetType', 'checkbox');
+    controller.set('model', obj());
+
+    controller.set('model.widgetType', 'checkbox');
 
     assert.ok(controller.get('useCheckboxes'));
     assert.ok(!controller.get('useButtons'));
 
-    controller.set('widgetType', 'button');
+    controller.set('model.widgetType', 'button');
 
     assert.ok(!controller.get('useCheckboxes'));
     assert.ok(controller.get('useButtons'));

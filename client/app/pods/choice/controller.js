@@ -20,37 +20,18 @@ export default Ember.Controller.extend({
     }
   }.observes('taskNode.nodeDef'),
 
-  //valid values are 'checkbox', 'button', or 'text'
-  widgetType: 'checkbox',
-
   useCheckboxes: function() {
-    return this.get('widgetType') === 'checkbox';
-  }.property('widgetType'),
+    return this.get('model.widgetType') === 'checkbox';
+  }.property('model.widgetType'),
 
   useButtons: function() {
-    return this.get('widgetType') === 'button';
-  }.property('widgetType'),
-
-  /**
-   * Set widgetType using a node-def-property.
-   */
-  widgetTypeObserver: function() {    
-    var nodeDef = this.get('nodeDef');
-
-    if (!nodeDef) {
-      return;
-    }
-
-    return nodeDef.get('nodeDefProperties')
-    .then((properties) => {
-      this.set('widgetType', properties.get('widget_type.value'));
-    });
-  }.observes('nodeDef'),
+    return this.get('model.widgetType') === 'button';
+  }.property('model.widgetType'),
 
   validChoices: function() {
     var nodeDef = this.get('nodeDef');
 
-    if (this.get('widgetType') === 'text' || !nodeDef) {
+    if (this.get('model.widgetType') === 'text' || !nodeDef) {
       return [];
     }
 
@@ -80,7 +61,7 @@ export default Ember.Controller.extend({
     });
 
     return DS.PromiseArray.create({promise:promise});
-  }.property('nodeDef', 'widgetType'),
+  }.property('nodeDef', 'model.widgetType'),
 
   selectedChoices: function() {
     var selected = this.get('validChoices').filterBy('isChecked', true);
