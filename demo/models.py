@@ -71,3 +71,8 @@ class Choice(Task):
     def handle_transition(self, transition):
         return transition.name in self.choices.split('//')
 task_registry.register(Choice)
+
+
+class AutocompleteTask(Task):
+    autocomplete = True
+task_registry.register(AutocompleteTask)
