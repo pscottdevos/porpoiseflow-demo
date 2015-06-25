@@ -25,6 +25,9 @@ export default Ember.Route.extend({
     if (!this.get('controller.model.isComplete')) {
       this.schedulePoll();
     }
+    else {
+      this.handleProcessComplete(this.get('controller.model'));
+    }
   },
 
   schedulePoll: function() {
