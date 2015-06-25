@@ -68,7 +68,7 @@ test('it builds the currently selected choices into a string',
       obj({isChecked: true, validTransition: obj({name: 'baz'})}),
     ]);
 
-    assert.strictEqual(controller.get('model.choices'), 'foo baz ');
+    assert.strictEqual(controller.get('model.choices'), 'foo//baz//');
   }
 );
 

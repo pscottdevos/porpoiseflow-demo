@@ -5,18 +5,12 @@
     <p>Start another {{#link-to "process-defs"}}process{{/link-to}}?</p>
 
   {{else}}
-
-    {{#liquid-if hasWaitingTask.isResolved}}
-      {{#liquid-if hasWaitingTask}}
-        <p>Please wait while additional tasks are completed by another user.</p>
-        <p>Start another {{#link-to "process-defs"}}process{{/link-to}}?</p>
-      {{else}}
-        {{searching-for-next}}
-      {{/liquid-if}}
+    {{#liquid-if hasWaitingTask}}
+      <p>Please wait while additional tasks are completed by another user.</p>
+      <p>Start another {{#link-to "process-defs"}}process{{/link-to}}?</p>
     {{else}}
       {{searching-for-next}}
     {{/liquid-if}}
-
   {{/liquid-if}}
 </div>
 
