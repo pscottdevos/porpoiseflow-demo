@@ -3,5 +3,5 @@ import Task from '../porpoiseflow/task';
 
 export default Task.extend({
   text: DS.attr('string'),
-  widgetType: DS.attr('string')
+  widgetType: DS.attr('string', { defaultValue: 'text' })
 });
