@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+import config from 'client/config/environment';
+
 export default Ember.Route.extend({
 
   model: function(params) {
@@ -18,10 +20,21 @@ export default Ember.Route.extend({
     );
   },
 
+  afterModel: function(model, transition) {
+    if (!config.APP.USE_ANIMATIONS) {
+      return this.persistAndRedirect(model);
+    }
+  },
+
   render: function() {
     this._super();
-    Ember.run.later(this, this.persistAndRedirect, this.get('controller.model'),
-      1000);
+
+    if(config.APP.USE_ANIMATIONS) {
+       Ember.run.later(
+        this, this.persistAndRedirect, this.get('controller.model'),
+        1000); 
+    }
+
   },
 
   /**
