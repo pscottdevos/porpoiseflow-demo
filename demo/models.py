@@ -21,13 +21,15 @@ PROCESSES = [
 ]
 
 DEMO_PROCESSES = [
+    ('onesykes_maestro', 'onesykes-maestro.bpmn'),
     ('work_history', 'work-history.bpmn'),
     ('demo', 'demo.bpmn'),
 ]
 
 USERS = [
-    ('user1', 'Group 1'),
-    ('user2', 'Group 2')
+    ('user1', ['Group 1', 'System']),
+    ('user2', ['Group 2', 'TeamLead']),
+    ('user3', ['Group 2', 'Employee'])
 ]
 
 def load_process_defs():
@@ -45,11 +47,10 @@ def load_process_defs():
 
 def create_users():
     User = get_user_model()
-    for username, group_name in USERS:
-        group = Group.objects.get(name=group_name)
+    for username, group_names in USERS:
+        groups = Group.objects.filter(name__in=group_names)
         user = User.objects.get_or_create(username=username)[0]
-
-        user.groups.add(group)
+        user.groups.add(*groups)
 
 
 class Logging(Task):
