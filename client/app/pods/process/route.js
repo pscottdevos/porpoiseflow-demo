@@ -32,11 +32,11 @@ export default Ember.Route.extend({
 
   schedulePoll: function() {
     return Ember.run.later(this,
-      function(model) {
+      function() {
+        var model = this.get('controller.model');
         return model.reload().then((reloadedModel) =>
           this.transitionOrHold(reloadedModel));
       },
-      this.get('controller.model'),
       1000);
   },
 

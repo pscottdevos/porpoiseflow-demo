@@ -4,13 +4,11 @@
     <p>Congratulations! You have completed process {{ model.processDef.name }}.</p>
     <p>Start another {{#link-to "process-defs"}}process{{/link-to}}?</p>
 
+  {{else liquid-if hasWaitingTask}}
+    <p>Please wait while additional tasks are completed by another user.</p>
+    <p>Start another {{#link-to "process-defs"}}process{{/link-to}}?</p>
   {{else}}
-    {{#liquid-if hasWaitingTask}}
-      <p>Please wait while additional tasks are completed by another user.</p>
-      <p>Start another {{#link-to "process-defs"}}process{{/link-to}}?</p>
-    {{else}}
-      {{searching-for-next}}
-    {{/liquid-if}}
+    {{searching-for-next}}
   {{/liquid-if}}
 </div>
 
