@@ -9,7 +9,7 @@ $.extend(client, {
     var self = this;
     this.getNodeDefProperty(node_def, 'prompt')
     .done( function(promptProperties) {
-      if (promptProperties) {
+      if (promptProperties.length > 0) {
         prmpt = promptProperties[0].value
       }
       self.setUi({
@@ -35,7 +35,7 @@ $.extend(client, {
     var self = this;
     this.getNodeDefProperty(node_def, 'prompt')
     .done( function(promptProperties) {
-      if (promptProperties) {
+      if (promptProperties.length > 0) {
         prmpt = promptProperties[0].value
       }
       self.setUi({
