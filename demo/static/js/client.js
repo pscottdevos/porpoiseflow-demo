@@ -5,13 +5,21 @@ String.prototype.patherize = function() {
 $.extend(client, {
 
   startLogging: function(node_def, node, task) {
-    this.setUi({
-      callback: this.endLogging, 
-      task: task,
-      info: node_def.name,
-      prmpt: '<p>Please enter text to log.</p>',
-      original: '',
-      showInput: true
+    var prmpt = '<p>Please enter text to log.</p>';
+    var self = this;
+    this.getNodeDefProperty(node_def, 'prompt')
+    .done( function(promptProperties) {
+      if (promptProperties) {
+        prmpt = promptProperties[0].value
+      }
+      self.setUi({
+        callback: self.endLogging, 
+        task: task,
+        info: node_def.name,
+        prmpt: prmpt,
+        original: '',
+        showInput: true
+      });
     });
   },
 
@@ -23,13 +31,21 @@ $.extend(client, {
   },
 
   startChoice: function(node_def, node, task) {
-    this.setUi({
-      callback: this.endChoice, 
-      task: task,
-      info: node_def.name,
-      prmpt: 'Enter transitions to follow',
-      original: '',
-      showInput: true
+    var prmpt = 'Enter transitions to follow';
+    var self = this;
+    this.getNodeDefProperty(node_def, 'prompt')
+    .done( function(promptProperties) {
+      if (promptProperties) {
+        prmpt = promptProperties[0].value
+      }
+      self.setUi({
+        callback: self.endChoice, 
+        task: task,
+        info: node_def.name,
+        prmpt: prmpt,
+        original: '',
+        showInput: true
+      });
     });
   },
 
@@ -59,7 +75,9 @@ $.extend(client, {
     .done(function(node) {
       self.getNodeDef(node)
       .done(function (node_def) {
-        if (node.subclass === 'Gateway') {
+        if (node.subclass === 'ParallelGateway' || 
+            node.subclass === 'ExclusiveGateway' ||
+            node.subclass === 'InclusiveGateway') {
           self.setUi({
             callback: self.doProcess,
             task: {},
@@ -91,6 +109,12 @@ $.extend(client, {
 
   getNodeDef: function(node) {
     return $.get('/api/node-defs/' + node.node_def);
+  },
+
+  getNodeDefProperty: function(nodeDef, name) {
+    return $.get('/api/node-def-properties', {
+      'node_def': nodeDef.id,
+      'name': name})
   },
 
   getTask: function(node) {
