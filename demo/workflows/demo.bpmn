@@ -47,24 +47,24 @@
       <bpmn2:outgoing>SequenceFlow_10</bpmn2:outgoing>
     </bpmn2:exclusiveGateway>
     <bpmn2:sequenceFlow id="SequenceFlow_5" name="" sourceRef="Task_1" targetRef="ExclusiveGateway_2"/>
-    <bpmn2:callActivity id="CallActivity_1" name="Sequence Pattern" calledElement="sequence_pattern">
+    <bpmn2:callActivity id="CallActivity_1" name="Sequence Pattern" calledElement="exclusive_choice_simple_merge">
       <bpmn2:incoming>SequenceFlow_7</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_12</bpmn2:outgoing>
       <bpmn2:multiInstanceLoopCharacteristics/>
     </bpmn2:callActivity>
-    <bpmn2:callActivity id="CallActivity_2" name="Exclusive Choice Pattern" calledElement="exclusive_choice_simple_merge">
+    <bpmn2:callActivity id="CallActivity_2" name="Exclusive Choice Pattern" calledElement="work_history">
       <bpmn2:incoming>SequenceFlow_9</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_11</bpmn2:outgoing>
       <bpmn2:multiInstanceLoopCharacteristics/>
     </bpmn2:callActivity>
-    <bpmn2:callActivity id="CallActivity_4" name="MultiChoice Pattern" calledElement="multi_choice">
+    <bpmn2:callActivity id="CallActivity_4" name="MultiChoice Pattern" calledElement="onesykes_maestro">
       <bpmn2:incoming>SequenceFlow_10</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_13</bpmn2:outgoing>
       <bpmn2:multiInstanceLoopCharacteristics/>
     </bpmn2:callActivity>
-    <bpmn2:sequenceFlow id="SequenceFlow_7" name="Process_1" sourceRef="ExclusiveGateway_2" targetRef="CallActivity_1"/>
-    <bpmn2:sequenceFlow id="SequenceFlow_9" name="Process_2" sourceRef="ExclusiveGateway_2" targetRef="CallActivity_2"/>
-    <bpmn2:sequenceFlow id="SequenceFlow_10" name="Process_3" sourceRef="ExclusiveGateway_2" targetRef="CallActivity_4"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_7" name="1. Simple Choice Pattern" sourceRef="ExclusiveGateway_2" targetRef="CallActivity_1"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_9" name="2. HIRE: Work History" sourceRef="ExclusiveGateway_2" targetRef="CallActivity_2"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_10" name="3. OneSykes/MAESTRO: Schedule a Coaching Session" sourceRef="ExclusiveGateway_2" targetRef="CallActivity_4"/>
     <bpmn2:sequenceFlow id="SequenceFlow_11" name="" sourceRef="CallActivity_2" targetRef="ExclusiveGateway_3"/>
     <bpmn2:sequenceFlow id="SequenceFlow_12" name="" sourceRef="CallActivity_1" targetRef="ExclusiveGateway_3"/>
     <bpmn2:sequenceFlow id="SequenceFlow_13" name="" sourceRef="CallActivity_4" targetRef="ExclusiveGateway_3"/>
