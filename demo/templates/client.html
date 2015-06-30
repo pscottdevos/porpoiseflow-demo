@@ -2,12 +2,11 @@
 
 {% block navbar %}
   <ul class="nav navbar-nav">
-    <li {% if is_client1 %}class="active"{% endif %}>
-      <a href='/client/1/{{ process_id }}'>Client 1</a>
-    </li>
-    <li {% if is_client2 %}class="active"{% endif %}>
-      <a href='/client/2/{{ process_id }}'>Client 2</a>
-    </li>
+    {% for cnum in client_nums %}
+      <li {% if cnum|stringformat:"d" == client_num %}class="active"{% endif %}>
+        <a href='/client/{{ cnum }}/{{ process_id }}'>Client {{ cnum }}</a>
+      </li>
+    {% endfor %}
   </ul>
 {% endblock %}
 
@@ -19,7 +18,8 @@
       job-seeker working through a job application.
     {% endif %}
     {% if is_client2 %}
-      Client 2 represents a secondary actor on a workflow who may be needed
+      Client {{ client_num }} represents a secondary actor on a workflow
+      who may be needed
       to complete some tasks on behalf of the primary actor, such as
       a recruiter performing an interview, the system performing some
       calculation, or a third party vendor completing a verification.

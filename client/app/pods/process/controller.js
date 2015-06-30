@@ -15,10 +15,10 @@ export default Ember.Controller.extend({
     process.get('owner')
     .then((owner) => owner.getNextNode(process))
     .then((node) => {
-      if (node){
-        this.set('hasWaitingTask', (node.get('subclass') !== 'ParallelGateway' ||
-            node.get('subclass') !== 'InclusiveGateway'));
-      }
+      this.set('hasWaitingTask',
+        node === null ||
+        node.get('subclass') !== 'ParallelGateway' ||
+        node.get('subclass') !== 'InclusiveGateway');
     });
   }.observes('model', 'model.owner')
 });

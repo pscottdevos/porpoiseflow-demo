@@ -58,6 +58,7 @@ test('it skips the post-render refresh if the process is complete',
     var route = this.subject();
     sinon.stub(route, '_super');
     sinon.stub(route, 'schedulePoll');
+    sinon.stub(route, 'handleProcessComplete');
 
     route.set('controller', obj({
       model: obj({
@@ -87,11 +88,9 @@ test('it schedules data polling', function(assert) {
   var runLaterArgs = runLaterStub.args[0];
 
   var callback = runLaterArgs[1];
-  var modelArg = runLaterArgs[2];
-  var timeout = runLaterArgs[3];
+  var timeout = runLaterArgs[2];
 
   assert.strictEqual(typeof(callback), 'function');
-  assert.strictEqual(modelArg, route.get('controller.model'));
   assert.strictEqual(timeout, 1000);
 
   //make sure the callback actually does what we think it does:
