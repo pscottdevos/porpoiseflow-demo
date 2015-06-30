@@ -58,10 +58,7 @@ export default Ember.Controller.extend({
           })
         );
 
-        transitionArray.set('sortProperties', ['name']);
-        transitionArray.set('sortAscending', true);
-
-        return transitionArray;
+        return transitionArray.sortBy('validTransition.name');
       });
     });
 
