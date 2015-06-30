@@ -64,6 +64,15 @@ router.register(
     'task-nodes', api.TaskNodeViewSet, base_name='tasknode')
 
 router.register('gateways', api.GatewayViewSet, base_name='gateway')
+router.register(
+    'parallel-gateways', api.ParallelGatewayViewSet,
+    base_name='parallelgateway')
+router.register(
+    'exclusive-gateways', api.ExclusiveGatewayViewSet,
+    base_name='exclusivegateway')
+router.register(
+    'inclusive-gateways', api.InclusiveGatewayViewSet,
+    base_name='inclusivegateway')
 router.register('subprocesses', api.SubprocessViewSet, base_name='subprocess')
 
 # Tasks
