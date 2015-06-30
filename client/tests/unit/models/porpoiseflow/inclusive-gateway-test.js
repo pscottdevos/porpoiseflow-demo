@@ -2,7 +2,7 @@ import { moduleForModel, test } from 'ember-qunit';
 
 moduleForModel('porpoiseflow/inclusive-gateway', 'Unit | Model | porpoiseflow/inclusive gateway', {
   // Specify the other units that are required for this test.
-  needs: []
+  integration: true,
 });
 
 test('it exists', function(assert) {
