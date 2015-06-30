@@ -50,14 +50,19 @@ export default Ember.Controller.extend({
 
       return gatewayDef.get('getOutgoingTransitions').bind(gatewayDef)()
 
-      .then((validTransitions) =>
-        validTransitions.map((validTransition) =>
+      .then((validTransitions) => {
+        var transitionArray = validTransitions.map((validTransition) =>
           Ember.Object.create({
             isChecked: false,
             validTransition: validTransition
           })
-        )
-      );
+        );
+
+        transitionArray.set('sortProperties', ['name']);
+        transitionArray.set('sortAscending', true);
+
+        return transitionArray;
+      });
     });
 
     return DS.PromiseArray.create({promise:promise});

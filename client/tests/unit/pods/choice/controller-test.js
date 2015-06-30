@@ -51,6 +51,8 @@ test('it finds valid choices for its model', function(assert) {
       'baz');
     assert.strictEqual(validChoices.objectAt(2).get('isChecked'), false);
 
+    assert.deepEqual(validChoices.get('sortProperties'), ['name']);
+    assert.strictEqual(validChoices.get('sortAscending'), true);
   });
 });
 
