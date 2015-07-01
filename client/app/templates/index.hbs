@@ -1,1 +1,8 @@
-This is the homepage.
+<ul>
+  {{#each model as |user| }} 
+    <li><a href="#" {{ action "authenticateUser" user }}>{{ user.username }}</a></li>
+  {{else}}
+    <p>There are no users in the system!</p>
+  {{/each}}
+</ul>
+{{outlet}}
