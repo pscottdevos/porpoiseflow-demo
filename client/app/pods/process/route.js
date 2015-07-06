@@ -1,8 +1,9 @@
 import Ember from 'ember';
+import AuthenticatedRouteMixin from 'simple-auth/mixins/authenticated-route-mixin';
 
 import config from 'client/config/environment';
 
-export default Ember.Route.extend({
+export default Ember.Route.extend(AuthenticatedRouteMixin, {
 
   model: function(params) {
     return this.store.find('porpoiseflow/process', params.id);
@@ -77,24 +78,27 @@ export default Ember.Route.extend({
    * Otherwise, schedule another poll.
    */
   continueProcess: function(process) {
-    return process.get('owner')
-
-    .then((owner) => {
-      return owner.getNextNode(process)
-      .then((node) =>
-      {
-        if (node && node.get('subclass') === 'TaskNode') {
-          //there probably won't actually be a running poll at this point, but
-          //just in case
-          this.cancelPoll();
-          return this.replaceWith('node', node.get('id'));
-        } else {
-          this.set('timer', this.schedulePoll());
-          return null;
-        }
-      });
+    return this.get('currentUser')
+    .then((user) => user.getNextNode(process))
+    .then((node) =>
+    {
+      if (node && node.get('subclass') === 'TaskNode') {
+        //there probably won't actually be a running poll at this point, but
+        //just in case
+        this.cancelPoll();
+        return this.replaceWith('node', node.get('id'));
+      } else {
+        this.set('timer', this.schedulePoll());
+        return null;
+      }
     });
   },
+
+  currentUser: function() {
+    //becomes store.peekRecord in ED 1.13
+    //this is safe because the authenticator always loads the user model
+    return this.store.find('auth/user', this.get('session.secure.userId'));
+  }.property('session.secure.userId'),
 
   actions: {
     willTransition: function() {

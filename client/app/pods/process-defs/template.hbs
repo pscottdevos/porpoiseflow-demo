@@ -1,7 +1,9 @@
 <div class="well">
   <div class="process-defs">
-    {{#each model as |def|}}
-      {{process-link processDef=def user=defaultUser}}
-    {{/each}}
+    {{#if defaultUser}}
+      {{#each model as |def|}}
+        {{process-link processDef=def user=defaultUser}}
+      {{/each}}
+    {{/if}}
   </div>
 </div>

@@ -1,8 +1,9 @@
 import Ember from 'ember';
+import AuthenticatedRouteMixin from 'simple-auth/mixins/authenticated-route-mixin';
 
 import config from 'client/config/environment';
 
-export default Ember.Route.extend({
+export default Ember.Route.extend(AuthenticatedRouteMixin, {
 
   model: function(params) {
     return this.store.find('porpoiseflow/node', params.id);

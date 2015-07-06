@@ -8,4 +8,8 @@
   {{/if}}
 
   <p>Back to {{#link-to 'process-defs'}}process list{{/link-to}}</p>
+
+  {{#if session.isAuthenticated}}
+    <p><a href="#" {{action 'logout'}}>Log out of PorpoiseFIRE</a></p>
+  {{/if}}
 </div>

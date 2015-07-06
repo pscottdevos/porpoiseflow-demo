@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import AuthenticatedRouteMixin from 'simple-auth/mixins/authenticated-route-mixin';
 
-export default Ember.Mixin.create({
+export default Ember.Mixin.create(AuthenticatedRouteMixin, {
   inProgressModel: null,
 
   queryParams: {
@@ -56,8 +57,6 @@ export default Ember.Mixin.create({
   setNodeDefProperties: function(model, nodeDefProperties) { },
 
   doSubmit: function(){
-    var process;
-    var taskNode;
     var task = this.get('controller.model');
 
     return task.save()
@@ -68,25 +67,8 @@ export default Ember.Mixin.create({
     })
     .then(() => this.set('inProgressModel', null))
     .then(() => task.get('taskNode'))
-    .then((fetchedTaskNode) => 
-    {
-      taskNode = fetchedTaskNode;
-      return taskNode.get('process');
-    })
-    .then((fetchedProcess) =>
-    {
-      process = fetchedProcess;
-      return taskNode.get('actor');
-    })
-    .then((actor) => actor.getNextNode(process))
-    .then((node) =>
-    {
-      if (node) {
-        return this.transitionTo('node', node.get('id'));
-      } else {
-        return this.transitionTo('process', process.get('id'));
-      }
-    });
+    .then((taskNode) => taskNode.get('process'))
+    .then((process) => this.transitionTo('process', process.get('id')));
 
   }
 });

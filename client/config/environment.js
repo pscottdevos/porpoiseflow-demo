@@ -9,7 +9,8 @@ module.exports = function(environment) {
     locationType: 'auto',
     "simple-auth": {
       authenticationRoute: 'index',
-      routeAfterAuthentication: 'process-defs'
+      routeAfterAuthentication: 'process-defs',
+      routeIfAlreadyAuthenticated: 'process-defs'
     },
     EmberENV: {
       FEATURES: {

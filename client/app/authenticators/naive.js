@@ -2,15 +2,17 @@ import Ember from 'ember';
 import Base from 'simple-auth/authenticators/base';
 
 export default Base.extend({
-  restore(data) {
+  restore: function(data) {
     return Ember.RSVP.resolve(data);
   },
 
-  authenticate(options) {
-    return Ember.RSVP.resolve({ userId: options.user.id });
+  authenticate: function(options) {
+    var data = { userId: options.user.id };
+    
+    return Ember.RSVP.resolve(data);
   },
 
-  invalidate(data) {
+  invalidate: function(data) {
     return Ember.RSVP.resolve();
   }
 });
