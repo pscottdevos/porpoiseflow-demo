@@ -104,7 +104,7 @@ test('it submits the task model', function(assert) {
 
   subject.doSubmit()
   .then(() => {
-    assert.ok(subject.transitionTo.calledWith('node', 42));
+    assert.ok(subject.transitionTo.calledWith('process', 42));
   });
 });
 
@@ -117,8 +117,7 @@ test('it shows an alert message if a submit fails', function(assert) {
   .then(() => {
     assert.ok(alertStub.called);
 
-    //this is fine because the "next node" should still be this node
-    assert.ok(subject.transitionTo.calledWith('node', 42));
+    sinon.assert.calledWith(subject.transitionTo, 'process', 42);
   });
 });
 

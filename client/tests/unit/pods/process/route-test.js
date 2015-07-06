@@ -204,6 +204,8 @@ test('it transitions to the next node if it finds one', function(assert) {
   var user = obj();
   user.getNextNode = sinon.stub().returns(toPromiseProxy(node));
 
+  route.set('currentUser', toPromiseProxy(user));
+
   var process = obj({
     owner: toPromiseProxy(user)
   });
@@ -231,6 +233,8 @@ test('it schedules another poll if it doesn\'t find a next node',
     var process = obj({
       owner: toPromiseProxy(user)
     });
+
+    route.set('currentUser', toPromiseProxy(user));
 
     route.continueProcess(process)
     .then(() => {
