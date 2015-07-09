@@ -1,8 +1,7 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.views.generic import TemplateView
 from django.shortcuts import render
-
-from demo.models import USERS
 
 # Create your views here.
 
@@ -13,7 +12,7 @@ class ClientView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(ClientView, self).get_context_data(**kwargs)
         client_num = kwargs.get('client_num')
-        client_list = range(1, len(USERS)+1)
+        client_list = range(1, len(settings.BASE_USERS)+1)
         context.update({
             'is_client1': client_num == '1',
             'is_client2': client_num >= '2',

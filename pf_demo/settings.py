@@ -12,9 +12,10 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import porpoiseflow
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+PFLOW_TESTS_DIR = os.path.join(os.path.dirname(porpoiseflow.__file__), 'tests')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
@@ -44,6 +45,7 @@ INSTALLED_APPS = (
     'porpoiseflow',
 
     'demo',
+    'pf_test_mode'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -84,7 +86,6 @@ WSGI_APPLICATION = 'pf_demo.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -135,3 +136,44 @@ REST_EMBER_PLURALIZE_KEYS = True
 PORPOISEFLOW_BASE_REST_SERIALIZER = (
     'demo.ember.ModelSerializer')
 APPEND_SLASH = False
+
+
+#enables or disables the processes for the 
+DEMO_MODE = True
+
+# these defs/users will be loaded at startup if they're not already in the
+# database
+BASE_PROCESS_DEFS = [
+    ('sequence_pattern', 'patterns/sequence-pattern.bpmn'),
+    ('parallel_split_synchronization',
+        'patterns/parallel-split-synchronization.bpmn'),
+    ('exclusive_choice_simple_merge',
+        'patterns/exclusive-choice-simple-merge.bpmn'),
+    ('multi_choice', 'patterns/multichoice.bpmn'),
+    ('sequence_change_lanes', 'patterns/sequence-change-lanes.bpmn'),
+    ('subprocess_pattern', 'patterns/subprocess.bpmn'),
+    ('loop_2', 'patterns/loop2-multi-instance.bpmn'),
+    ('nested_branches', 'patterns/nested-branches1.bpmn'),
+]
+
+BASE_USERS = [
+    ('user1', ['Group 1', 'System']),
+    ('user2', ['Group 2', 'TeamLead']),
+    ('user3', ['Group 2', 'Employee'])
+]
+
+DEMO_PROCESS_DEFS = [
+    ('onesykes_maestro', 'onesykes-maestro.bpmn'),
+    ('work_history', 'work-history.bpmn'),
+    ('demo', 'demo.bpmn'),
+]
+
+if DEMO_MODE:
+    BASE_PROCESS_DEFS += DEMO_PROCESS_DEFS
+
+
+if 'pf_test_mode' in INSTALLED_APPS:
+    TEST_MODE_DB_FILE = os.path.join(BASE_DIR, 'test_db.sqlite3')
+    TEST_MODE_DB_TEMPFILE = os.path.join(BASE_DIR, 'test_db.sqlite3__TEMP')
+
+    DATABASES['default']['NAME'] = TEST_MODE_DB_FILE

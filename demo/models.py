@@ -1,53 +1,29 @@
 import os.path
 
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from django.db import models
 
 from porpoiseflow.bpmn2 import Bpmn2Handler
+from porpoiseflow.loader import load_diagram
 from porpoiseflow.models import ProcessDef, Task, task_registry
 from porpoiseflow import tests
 
-
-PROCESSES = [
-    ('sequence_pattern', 'sequence-pattern.bpmn'),
-    ('parallel_split_synchronization', 'parallel-split-synchronization.bpmn'),
-    ('exclusive_choice_simple_merge', 'exclusive-choice-simple-merge.bpmn'),
-    ('multi_choice', 'multichoice.bpmn'),
-    ('sequence_change_lanes', 'sequence-change-lanes.bpmn'),
-    ('subprocess_pattern', 'subprocess.bpmn'),
-    ('loop_2', 'loop2-multi-instance.bpmn'),
-    ('nested_branches', 'nested-branches1.bpmn'),
-]
-
-DEMO_PROCESSES = [
-    ('onesykes_maestro', 'onesykes-maestro.bpmn'),
-    ('work_history', 'work-history.bpmn'),
-    ('demo', 'demo.bpmn'),
-]
-
-USERS = [
-    ('user1', ['Group 1', 'System']),
-    ('user2', ['Group 2', 'TeamLead']),
-    ('user3', ['Group 2', 'Employee'])
-]
 
 def load_process_defs():
     handler = Bpmn2Handler(add_groups=True)
     existing_process_defs = ProcessDef.objects.values_list('process_id',
         flat=True)
-    grouped_processes = (
-        (PROCESSES, os.path.join(os.path.dirname(tests.__file__), 'patterns')),
-        (DEMO_PROCESSES, os.path.join(os.path.dirname(__file__), 'workflows'))
-    )
-    for processes, directory in grouped_processes:
-        for process_id, filename in processes:
-            if not process_id in existing_process_defs:
-                handler.parse(os.path.join(directory, filename))
+
+    for process_id, path in settings.BASE_PROCESS_DEFS:
+        if not process_id in existing_process_defs:
+            load_diagram(path)
+
 
 def create_users():
     User = get_user_model()
-    for username, group_names in USERS:
+    for username, group_names in settings.BASE_USERS:
         groups = Group.objects.filter(name__in=group_names)
         user = User.objects.get_or_create(username=username)[0]
         user.groups.add(*groups)
