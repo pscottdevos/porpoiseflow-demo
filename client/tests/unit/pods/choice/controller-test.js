@@ -48,11 +48,8 @@ test('it finds valid choices for its model', function(assert) {
 
     assert.strictEqual(validChoices.get('length'), 3);
     assert.strictEqual(validChoices.objectAt(2).get('validTransition.name'),
-      'baz');
+      'foo');
     assert.strictEqual(validChoices.objectAt(2).get('isChecked'), false);
-
-    assert.deepEqual(validChoices.get('sortProperties'), ['name']);
-    assert.strictEqual(validChoices.get('sortAscending'), true);
   });
 });
 

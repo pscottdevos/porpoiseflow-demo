@@ -18,8 +18,11 @@ test('ajaxError should detect a validation error response', function(assert) {
 
   var invalidError = adapter.ajaxError(errorJqxhr);
 
-  assert.equal(invalidError.errors.foo, 'bar');
-  assert.equal(invalidError.errors.baz, 3);
+  assert.equal(invalidError.errors[0].detail, 'bar');
+  assert.equal(invalidError.errors[0].source.pointer, 'data/attributes/foo');
+
+  assert.equal(invalidError.errors[1].detail, 3);
+  assert.equal(invalidError.errors[1].source.pointer, 'data/attributes/baz');
 });
 
 test('pathForType should create a flat, dasherized, plural path',
