@@ -2,6 +2,7 @@ from django.conf.urls import patterns, include, url
 from rest_framework import routers
 
 from porpoiseflow import api
+from questionnaire import api as q_api
 
 from demo.api import (
     ProcessViewSet, UserViewSet, GroupViewSet, LoggingViewSet, ChoiceViewSet,
@@ -82,6 +83,28 @@ router.register('processes', ProcessViewSet, base_name='process')
 
 router.register(
     'process-statuses', api.ProcessStatusViewSet, base_name='processstatus')
+
+
+# Questionnaire
+router.register('questionnaires', q_api.QuestionnaireViewSet,
+    base_name='questionnaire')
+router.register('answers', q_api.AnswerViewSet, base_name='answer')
+router.register('answer-items', q_api.AnswerItemViewSet, base_name='answeritem')
+router.register(
+    'questionnaire-defs', q_api.QuestionnaireDefViewSet,
+    base_name='questionnairedef')
+router.register('question-defs', q_api.QuestionDefViewSet,
+    base_name='questiondef')
+router.register(
+    'answer-item-defs', q_api.AnswerItemDefViewSet, base_name='answeritemdef')
+router.register(
+    'multiple-choice-question-defs', q_api.MultipleChoiceQuestionDefViewSet,
+    base_name='multiplechoicequestiondef')
+router.register(
+    'free-text-question-defs', q_api.FreeTextQuestionDefViewSet,
+    base_name='freetextquestiondef')
+
+
 
 urlpatterns = [
     # Examples:
