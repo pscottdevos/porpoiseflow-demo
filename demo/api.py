@@ -14,7 +14,6 @@ from porpoiseflow.models import Process, ProcessDef
 from demo import models, serializers
 
 
-
 class UserViewSet(OriginalUserViewSet):
     filter_fields = ['username',]
 

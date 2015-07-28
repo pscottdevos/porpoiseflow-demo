@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'rest_framework',
     'porpoiseflow',
+    'sabre',
 
     'demo',
     'pf_test_mode'
