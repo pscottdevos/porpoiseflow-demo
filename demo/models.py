@@ -18,7 +18,7 @@ def load_process_defs():
 
     for process_id, path in settings.BASE_PROCESS_DEFS:
         if not process_id in existing_process_defs:
-            load_diagram(path)
+            load_diagram(path, add_groups=True)
 
 
 def create_users():
